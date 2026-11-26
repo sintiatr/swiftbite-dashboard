@@ -1,0 +1,1233 @@
+<!doctype html><html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>SwiftBite Executive Dashboard – SB-P04</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+:root{--bg:#f3f1fb;--cd:#fff;--tx:#1e1b4b;--mu:#64608a;--bd:#e3def5;--ac:#4f46e5;--ok:#0d9488;--bad:#e11d48;--wn:#c2710c;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#0d1b2a;--cd:#14263a;--tx:#e6eef7;--mu:#9db0c5;--bd:#25405c;--ac:#4aa3f0;--ok:#2cc4b4;--bad:#ff7a7a;--wn:#f7c04a;color-scheme:dark}}
+:root[data-theme=dark]{--bg:#0d1b2a;--cd:#14263a;--tx:#e6eef7;--mu:#9db0c5;--bd:#25405c;--ac:#4aa3f0;--ok:#2cc4b4;--bad:#ff7a7a;--wn:#f7c04a;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(900px 420px at 8% -5%,rgba(99,102,241,.14),transparent),radial-gradient(700px 400px at 96% 0,rgba(20,184,166,.13),transparent),var(--bg);color:var(--tx);font:14px/1.5 system-ui,-apple-system,"Segoe UI",Arial,sans-serif}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+main{max-width:1380px;margin:0 auto;padding:16px}
+header{background:linear-gradient(120deg,#312e81,#4f46e5 42%,#0ea5e9 78%,#14b8a6);box-shadow:0 10px 30px rgba(79,70,229,.28);color:#fff;border-radius:16px;padding:20px 24px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center}
+h1{font-size:clamp(20px,3vw,28px);margin:2px 0}.sub{font-size:13px;opacity:.88}
+.bd{background:rgba(255,255,255,.18);border-radius:999px;padding:5px 12px;font-size:12px;font-weight:700}
+button,select{font:inherit;color:var(--tx);background:var(--cd);border:1px solid var(--bd);border-radius:8px;padding:7px 10px;cursor:pointer}
+header button{background:rgba(255,255,255,.18);color:#fff;border-color:rgba(255,255,255,.4)}
+.fb{position:sticky;top:env(safe-area-inset-top,0px);z-index:11;background:var(--cd);border:1px solid var(--bd);border-radius:12px;margin:12px 0;padding:10px 12px;display:flex;gap:10px;flex-wrap:wrap;align-items:end}
+.fb label{flex:1 1 130px;font-size:12px;font-weight:700;color:var(--mu)}.fb select{width:100%;margin-top:3px}
+#cnt{font-weight:700;color:var(--ac);align-self:center}
+.kp{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+.card{background:var(--cd);border:1px solid var(--bd);border-radius:16px;padding:15px 16px;min-width:0;box-shadow:0 4px 18px rgba(79,70,229,.07);transition:transform .15s,box-shadow .15s}.card:hover{transform:translateY(-2px);box-shadow:0 10px 26px rgba(79,70,229,.15)}.g h3::before{content:"";display:inline-block;width:9px;height:9px;border-radius:50%;background:linear-gradient(135deg,#6366f1,#14b8a6);margin-right:8px}.sm li::marker{color:var(--ac)}
+.kp .card{border-top:4px solid var(--k);position:relative;overflow:hidden}.kp .card::after{content:"";position:absolute;right:-22px;top:-22px;width:88px;height:88px;border-radius:50%;background:var(--k);opacity:.13}.kp .card .l{font-size:12px;color:var(--mu);font-weight:700}.kp .v{font-size:clamp(22px,2.6vw,28px);font-weight:800;margin:2px 0;color:var(--k)}.kp .s{font-size:12px;color:var(--mu)}
+.ok{color:var(--ok)}.bad{color:var(--bad)}.warn{color:var(--wn)}
+nav{display:flex;gap:6px;margin:16px 0 10px;flex-wrap:wrap}nav button{border-radius:999px;padding:8px 18px;font-weight:600}nav button.on{background:linear-gradient(120deg,#4f46e5,#0ea5e9);color:#fff;border-color:transparent;box-shadow:0 4px 14px rgba(79,70,229,.3)}
+.g{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,440px),1fr));gap:14px;margin-top:14px}
+h3{margin:0;font-size:15px}.why{margin:3px 0 10px;font-size:12px;color:var(--mu)}.cv{position:relative;height:320px}
+.tgrp{display:inline-flex;border:1px solid var(--bd);border-radius:8px;overflow:hidden;background:var(--bg);flex-shrink:0}
+.tbtn{border:none;border-radius:0;padding:5px 11px;font-size:12px;font-weight:700;background:transparent;color:var(--mu)}
+.tbtn.on{background:#1e293b;color:#fff}
+:root[data-theme=dark] .tbtn.on{background:#38bdf8;color:#0f172a}
+.hm-wrap{height:320px;display:none;flex-direction:column;justify-content:center;overflow-x:auto}
+.hm-tbl{width:100%;border-collapse:separate;border-spacing:4px;font-size:11.5px;text-align:center}
+.hm-tbl th{color:var(--mu);font-weight:700;padding:4px;font-size:11px}
+.hm-tbl td{padding:8px 4px;border-radius:6px;font-weight:700;transition:transform .12s}
+.hm-tbl td:hover{transform:scale(1.04)}
+.ins{margin:12px 0 0;padding:9px 12px;border-left:4px solid var(--ac);background:linear-gradient(90deg,rgba(99,102,241,.13),rgba(20,184,166,.05));border-radius:8px;font-size:13px;line-height:1.45}.ins::before{content:"💡 "}
+.sm li{margin:5px 0}.sm ul,.sm ol{padding-left:20px;margin:6px 0}
+section{display:none}section.on{display:block}
+footer{margin:18px 0 8px;font-size:12px;color:var(--mu)}
+@media print{section{display:block!important}.fb,nav,header button{display:none}}
+</style></head><body><main>
+<header><div><div class="sub">CAPSTONE SB-P04 • KUARTAL I 2026 (2 JAN – 31 MAR) • SINTIA TRI WULANDARI</div><h1>SwiftBite Executive Performance Dashboard</h1></div>
+<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><button id="th">Tema</button></div></header>
+<div class="fb" id="fb"></div>
+<div class="kp" id="kpi"></div>
+<nav id="nav"></nav>
+<section id="s-ring"><div class="g" id="g-ring"></div></section>
+<section id="s-ops"><div class="g" id="g-ops"></div></section>
+<section id="s-cx"><div class="g" id="g-cx"></div></section>
+<div class="g" style="margin-top:16px">
+  <div class="card sm"><h3 id="h-exec">📌 Key Highlights — Performa Bisnis &amp; Penjualan</h3><ul id="exec"></ul></div>
+  <div class="card sm"><h3 id="h-rec">🎯 Action Plan — Performa Bisnis &amp; Penjualan</h3><ol id="rec"></ol></div>
+</div>
+<footer><b>Definisi KPI.</b> Net Payment = pembayaran sukses − refund. Late Delivery Rate = order delivered dengan delay &gt; 0 menit ÷ order delivered. Review Coverage = order ber-review ÷ total order. Sentimen mencakup Positive, Neutral, Negative, Unknown, dan No Text; status No Review dipisahkan dari pembagi. Pembagi 0 ditampilkan N/A. Tips: gunakan tombol panah kiri/kanan untuk berpindah tab saat presentasi.</footer>
+</main><script>
+const D=[{"m":"2026-03","wd":4,"sl":3,"hr":22,"z":"Central","s":"New","c":"Indonesian","t":"Budget","o":"completed","n":167000,"g":167000,"r":0,"d":1,"l":0,"dl":-9.0,"rt":5.0,"se":"Positive"},{"m":"2026-03","wd":1,"sl":3,"hr":18,"z":"North","s":"New","c":"Dessert","t":"Premium","o":"completed","n":113000,"g":113000,"r":0,"d":1,"l":1,"dl":15.0,"rt":4.0,"se":"Unknown"},{"m":"2026-03","wd":5,"sl":3,"hr":18,"z":"North","s":"New","c":"Cafe & Beverage","t":"Mid","o":"completed","n":86000,"g":86000,"r":0,"d":1,"l":1,"dl":9.0,"rt":null,"se":null},{"m":"2026-03","wd":3,"sl":0,"hr":10,"z":"North","s":"Loyal","c":"Asian","t":"Budget","o":"completed","n":106000,"g":106000,"r":0,"d":1,"l":1,"dl":21.0,"rt":3.0,"se":"Neutral"},{"m":"2026-02","wd":4,"sl":0,"hr":1,"z":"West","s":"Loyal","c":"Indonesian","t":"Budget","o":"completed","n":63000,"g":63000,"r":0,"d":1,"l":0,"dl":-14.0,"rt":2.0,"se":"Positive"},{"m":"2026-01","wd":2,"sl":0,"hr":9,"z":"South","s":"New","c":"Dessert","t":"Mid","o":"completed","n":49000,"g":49000,"r":0,"d":1,"l":1,"dl":19.0,"rt":3.0,"se":"Neutral"},{"m":"2026-01","wd":5,"sl":1,"hr":14,"z":"Central","s":"New","c":"Cafe & Beverage","t":"Mid","o":"completed","n":33000,"g":33000,"r":0,"d":1,"l":0,"dl":-13.0,"rt":null,"se":null},{"m":"2026-02","wd":4,"sl":0,"hr":5,"z":"North","s":"New","c":"Fast Food","t":"Mid","o":"completed","n":124000,"g":124000,"r":0,"d":1,"l":0,"dl":0.0,"rt":4.0,"se":"Positive"},{"m":"2026-01","wd":1,"sl":0,"hr":0,"z":"West","s":"Loyal","c":"Indonesian","t":"Mid","o":"completed","n":80000,"g":80000,"r":0,"d":1,"l":1,"dl":9.0,"rt":null,"se":null},{"m":"2026-02","wd":0,"sl":1,"hr":11,"z":"North","s":"New","c":"Dessert","t":"Mid","o":"completed","n":120000,"g":120000,"r":0,"d":1,"l":1,"dl":21.0,"rt":null,"se":null},{"m":"2026-01","wd":2,"sl":3,"hr":23,"z":"East","s":"Regular","c":"Cafe & Beverage","t":"Mid","o":"completed","n":118000,"g":118000,"r":0,"d":1,"l":1,"dl":25.0,"rt":1.0,"se":"Positive"},{"m":"2026-02","wd":1,"sl":3,"hr":20,"z":"Central","s":"Regular","c":"Fast Food","t":"Budget","o":"completed","n":147000,"g":147000,"r":0,"d":1,"l":0,"dl":-12.0,"rt":2.0,"se":"Neutral"},{"m":"2026-02","wd":2,"sl":1,"hr":14,"z":"South","s":"Loyal","c":"Western","t":"Premium","o":"completed","n":74000,"g":74000,"r":0,"d":1,"l":0,"dl":0.0,"rt":4.0,"se":"Positive"},{"m":"2026-01","wd":4,"sl":3,"hr":23,"z":"Central","s":"Regular","c":"Dessert","t":"Mid","o":"completed","n":61000,"g":61000,"r":0,"d":1,"l":0,"dl":-4.0,"rt":2.0,"se":"Unknown"},{"m":"2026-01","wd":1,"sl":0,"hr":8,"z":"South","s":"Loyal","c":"Cafe & Beverage","t":"Mid","o":"completed","n":164000,"g":164000,"r":0,"d":1,"l":1,"dl":17.0,"rt":4.0,"se":"Negative"},{"m":"2026-02","wd":0,"sl":3,"hr":19,"z":"Central","s":"Regular","c":"Fast Food","t":"Premium","o":"completed","n":100000,"g":100000,"r":0,"d":1,"l":0,"dl":-5.0,"rt":null,"se":null},{"m":"2026-03","wd":2,"sl":0,"hr":7,"z":"Central","s":"Loyal","c":"Western","t":"Mid","o":"completed","n":53000,"g":53000,"r":0,"d":1,"l":0,"dl":-6.0,"rt":4.0,"se":"Positive"},{"m":"2026-03","wd":5,"sl":2,"hr":15,"z":"South","s":"Regular","c":"Asian","t":"Budget","o":"completed","n":70000,"g":70000,"r":0,"d":1,"l":0,"dl":-13.0,"rt":null,"se":null},{"m":"2026-03","wd":1,"sl":1,"hr":12,"z":"North","s":"New","c":"Indonesian","t":"Mid","o":"completed","n":141000,"g":141000,"r":0,"d":1,"l":0,"dl":-9.0,"rt":3.0,"se":"Negative"},{"m":"2026-02","wd":1,"sl":3,"hr":18,"z":"North","s":"Regular","c":"Fast Food","t":"Mid","o":"completed","n":252000,"g":252000,"r":0,"d":1,"l":0,"dl":-12.0,"rt":5.0,"se":"No Text"},{"m":"2026-01","wd":5,"sl":0,"hr":1,"z":"South","s":"Regular","c":"Western","t":"Mid","o":"completed","n":125000,"g":125000,"r":0,"d":1,"l":0,"dl":0.0,"rt":3.0,"se":"Positive"},{"m":"2026-03","wd":6,"sl":0,"hr":6,"z":"North","s":"New","c":"Asian","t":"Premium","o":"completed","n":26000,"g":26000,"r":0,"d":1,"l":1,"dl":12.0,"rt":2.0,"se":"Positive"},{"m":"2026-03","wd":6,"sl":0,"hr":4,"z":"South","s":"Regular","c":"Indonesian","t":"Premium","o":"completed","n":83000,"g":83000,"r":0,"d":1,"l":0,"dl":-7.0,"rt":4.0,"se":"Neutral"},{"m":"2026-01","wd":1,"sl":3,"hr":19,"z":"West","s":"Regular","c":"Dessert","t":"Mid","o":"completed","n":169000,"g":169000,"r":0,"d":1,"l":0,"dl":-6.0,"rt":4.0,"se":"Neutral"},{"m":"2026-03","wd":5,"sl":0,"hr":3,"z":"Central","s":"New","c":"Western","t":"Mid","o":"completed","n":94000,"g":94000,"r":0,"d":1,"l":0,"dl":-4.0,"rt":null,"se":null},{"m":"2026-03","wd":2,"sl":0,"hr":4,"z":"Central","s":"New","c":"Asian","t":"Mid","o":"completed","n":89000,"g":89000,"r":0,"d":1,"l":0,"dl":0.0,"rt":4.0,"se":"Positive"},{"m":"2026-02","wd":1,"sl":0,"hr":8,"z":"North","s":"New","c":"Indonesian","t":"Budget","o":"completed","n":110000,"g":110000,"r":0,"d":1,"l":1,"dl":17.0,"rt":null,"se":null},{"m":"2026-01","wd":0,"sl":0,"hr":2,"z":"North","s":"New","c":"Dessert","t":"Premium","o":"completed","n":85000,"g":85000,"r":0,"d":1,"l":1,"dl":21.0,"rt":2.0,"se":"No Text"},{"m":"2026-02","wd":1,"sl":2,"hr":16,"z":"North","s":"Loyal","c":"Cafe & Beverage","t":"Mid","o":"completed","n":198000,"g":198000,"r":0,"d":1,"l":1,"dl":19.0,"rt":3.0,"se":"Positive"},{"m":"2026-01","wd":5,"sl":0,"hr":6,"z":"West","s":"Loyal","c":"Asian","t":"Budget","o":"completed","n":92000,"g":92000,"r":0,"d":1,"l":0,"dl":-2.0,"rt":1.0,"se":"Negative"},{"m":"2026-02","wd":0,"sl":3,"hr":19,"z":"South","s":"New","c":"Indonesian","t":"Budget","o":"completed","n":133000,"g":133000,"r":0,"d":1,"l":1,"dl":11.0,"rt":5.0,"se":"Unknown"},{"m":"2026-01","wd":2,"sl":2,"hr":16,"z":"Central","s":"New","c":"Dessert","t":"Mid","o":"completed","n":162000,"g":162000,"r":0,"d":1,"l":1,"dl":19.0,"rt":5.0,"se":"Positive"},{"m":"2026-02","wd":0,"sl":3,"hr":18,"z":"North","s":"New","c":"Cafe & Beverage","t":"Mid","o":"completed","n":166000,"g":166000,"r":0,"d":1,"l":0,"dl":-8.0,"rt":null,"se":null},{"m":"2026-01","wd":5,"sl":1,"hr":14,"z":"West","s":"Loyal","c":"Fast Food","t":"Mid","o":"completed","n":133000,"g":133000,"r":0,"d":1,"l":0,"dl":-9.0,"rt":4.0,"se":"Neutral"},{"m":"2026-02","wd":1,"sl":3,"hr":23,"z":"North","s":"New","c":"Indonesian","t":"Mid","o":"completed","n":99000,"g":99000,"r":0,"d":1,"l":0,"dl":-4.0,"rt":null,"se":null},{"m":"2026-02","wd":1,"sl":0,"hr":8,"z":"East","s":"Regular","c":"Dessert","t":"Mid","o":"completed","n":93000,"g":93000,"r":0,"d":1,"l":1,"dl":20.0,"rt":3.0,"se":"Positive"},{"m":"2026-01","wd":4,"sl":0,"hr":1,"z":"Central","s":"Regular","c":"Cafe & Beverage","t":"Mid","o":"completed","n":132000,"g":132000,"r":0,"d":1,"l":0,"dl":-2.0,"rt":4.0,"se":"Neutral"},{"m":"2026-03","wd":2,"sl":3,"hr":23,"z":"South","s":"Loyal","c":"Fast Food","t":"Budget","o":"completed","n":102000,"g":102000,"r":0,"d":1,"l":1,"dl":20.0,"rt":null,"se":null},{"m":"2026-01","wd":6,"sl":3,"hr":19,"z":"Central","s":"Regular","c":"Western","t":"Premium","o":"completed","n":42000,"g":42000,"r":0,"d":1,"l":0,"dl":-6.0,"rt":5.0,"se":"Unknown"},{"m":"2026-01","wd":1,"sl":2,"hr":16,"z":"South","s":"Loyal","c":"Dessert","t":"Mid","o":"completed","n":98000,"g":98000,"r":0,"d":1,"l":0,"dl":-14.0,"rt":5.0,"se":"Unknown"},{"m":"2026-02","wd":3,"sl":2,"hr":15,"z":"Central","s":"Regular","c":"Cafe & Beverage","t":"Mid","o":"completed","n":113000,"g":113000,"r":0,"d":1,"l":0,"dl":-13.0,"rt":null,"se":null},{"m":"2026-03","wd":6,"sl":2,"hr":16,"z":"Central","s":"Loyal","c":"Fast Food","t":"Premium","o":"completed","n":133000,"g":133000,"r":0,"d":1,"l":1,"dl":24.0,"rt":null,"se":null},{"m":"2026-01","wd":6,"sl":1,"hr":11,"z":"South","s":"Regular","c":"Western","t":"Mid","o":"completed","n":104000,"g":104000,"r":0,"d":1,"l":0,"dl":-14.0,"rt":5.0,"se":"Neutral"},{"m":"2026-03","wd":4,"sl":3,"hr":19,"z":"North","s":"New","c":"Asian","t":"Budget","o":"completed","n":324000,"g":324000,"r":0,"d":1,"l":0,"dl":-8.0,"rt":null,"se":null},{"m":"2026-01","wd":2,"sl":1,"hr":14,"z":"North","s":"Regular","c":"Indonesian","t":"Mid","o":"completed","n":96000,"g":96000,"r":0,"d":1,"l":1,"dl":18.0,"rt":2.0,"se":"No Text"},{"m":"2026-02","wd":1,"sl":0,"hr":6,"z":"South","s":"Regular","c":"Fast Food","t":"Mid","o":"completed","n":53000,"g":53000,"r":0,"d":1,"l":0,"dl":-7.0,"rt":4.0,"se":"Neutral"},{"m":"2026-02","wd":5,"sl":0,"hr":8,"z":"North","s":"New","c":"Western","t":"Mid","o":"completed","n":234000,"g":234000,"r":0,"d":1,"l":0,"dl":-8.0,"rt":null,"se":null},{"m":"2026-02","wd":3,"sl":2,"hr":17,"z":"South","s":"Regular","c":"Asian","t":"Premium","o":"completed","n":68000,"g":68000,"r":0,"d":1,"l":0,"dl":-9.0,"rt":5.0,"se":"Neutral"},{"m":"2026-02","wd":3,"sl":3,"hr":19,"z":"West","s":"Regular","c":"Indonesian","t":"Premium","o":"completed","n":128000,"g":128000,"r":0,"d":1,"l":1,"dl":6.0,"rt":5.0,"se":"Negative"},{"m":"2026-02","wd":5,"sl":0,"hr":1,"z":"Central","s":"New","c":"Dessert","t":"Mid","o":"completed","n":105000,"g":105000,"r":0,"d":1,"l":0,"dl":-2.0,"rt":null,"se":null},{"m":"2026-01","wd":2,"sl":0,"hr":1,"z":"Central","s":"New","c":"Western","t":"Mid","o":"completed","n":210000,"g":210000,"r":0,"d":1,"l":1,"dl":23.0,"rt":1.0,"se":"Positive"},{"m":"2026-02","wd":3,"sl":2,"hr":17,"z":"North","s":"New","c":"Asian","t":"Mid","o":"completed","n":171000,"g":171000,"r":0,"d":1,"l":0,"dl":-1.0,"rt":null,"se":null},{"m":"2026-01","wd":5,"sl":3,"hr":19,"z":"North","s":"New","c":"Indonesian","t":"Budget","o":"completed","n":67000,"g":67000,"r":0,"d":1,"l":0,"dl":-12.0,"rt":null,"se":null},{"m":"2026-02","wd":3,"sl":2,"hr":15,"z":"North","s":"Loyal","c":"Dessert","t":"Premium","o":"completed","n":227000,"g":227000,"r":0,"d":1,"l":0,"dl":-8.0,"rt":5.0,"se":"No Text"},{"m":"2026-03","wd":2,"sl":0,"hr":4,"z":"West","s":"Loyal","c":"Cafe & Beverage","t":"Mid","o":"completed","n":119000,"g":119000,"r":0,"d":1,"l":0,"dl":-14.0,"rt":2.0,"se":"Positive"},{"m":"2026-03","wd":2,"sl":3,"hr":23,"z":"South","s":"New","c":"Asian","t":"Budget","o":"completed","n":104000,"g":104000,"r":0,"d":1,"l":0,"dl":-10.0,"rt":null,"se":null},{"m":"2026-03","wd":6,"sl":1,"hr":14,"z":"Central","s":"New","c":"Indonesian","t":"Budget","o":"completed","n":247000,"g":247000,"r":0,"d":1,"l":1,"dl":24.0,"rt":3.0,"se":"Negative"},{"m":"2026-02","wd":3,"sl":1,"hr":12,"z":"North","s":"New","c":"Dessert","t":"Mid","o":"completed","n":78000,"g":78000,"r":0,"d":1,"l":1,"dl":10.0,"rt":4.0,"se":"Unknown"},{"m":"2026-01","wd":2,"sl":0,"hr":3,"z":"West","s":"Loyal","c":"Cafe & Beverage","t":"Mid","o":"completed","n":80000,"g":80000,"r":0,"d":1,"l":1,"dl":23.0,"rt":3.0,"se":"Unknown"},{"m":"2026-02","wd":4,"sl":0,"hr":4,"z":"North","s":"New","c":"Fast Food","t":"Mid","o":"completed","n":75000,"g":75000,"r":0,"d":1,"l":0,"dl":-14.0,"rt":null,"se":null},{"m":"2026-02","wd":1,"sl":0,"hr":0,"z":"East","s":"Regular","c":"Indonesian","t":"Mid","o":"completed","n":59000,"g":59000,"r":0,"d":1,"l":0,"dl":-14.0,"rt":null,"se":null},{"m":"2026-02","wd":6,"sl":0,"hr":8,"z":"Central","s":"Regular","c":"Dessert","t":"Mid","o":"completed","n":131000,"g":131000,"r":0,"d":1,"l":1,"dl":22.0,"rt":3.0,"se":"Negative"},{"m":"2026-01","wd":4,"sl":1,"hr":12,"z":"South","s":"Loyal","c":"Cafe & Beverage","t":"Mid","o":"completed","n":87000,"g":87000,"r":0,"d":1,"l":0,"dl":-12.0,"rt":2.0,"se":"Positive"},{"m":"2026-02","wd":6,"sl":2,"hr":17,"z":"Central","s":"Regular","c":"Fast Food","t":"Budget","o":"completed","n":277000,"g":277000,"r":0,"d":1,"l":0,"dl":-6.0,"rt":3.0,"se":"Neutral"},{"m":"2026-02","wd":6,"sl":0,"hr":1,"z":"South","s":"Loyal","c":"Western","t":"Premium","o":"completed","n":163000,"g":163000,"r":0,"d":1,"l":0,"dl":-7.0,"rt":4.0,"se":"Neutral"},{"m":"2026-02","wd":4,"sl":1,"hr":13,"z":"Central","s":"Regular","c":"Dessert","t":"Mid","o":"completed","n":162000,"g":162000,"r":0,"d":1,"l":1,"dl":8.0,"rt":null,"se":null},{"m":"2026-03","wd":4,"sl":2,"hr":17,"z":"Central","s":"Loyal","c":"Cafe & Beverage","t":"Mid","o":"completed","n":157000,"g":157000,"r":0,"d":1,"l":0,"dl":-2.0,"rt":5.0,"se":"Negative"},{"m":"2026-01","wd":3,"sl":3,"hr":20,"z":"South","s":"Regular","c":"Fast Food","t":"Premium","o":"completed","n":32000,"g":32000,"r":0,"d":1,"l":0,"dl":-2.0,"rt":null,"se":null},{"m":"2026-01","wd":6,"sl":0,"hr":3,"z":"North","s":"New","c":"Western","t":"Mid","o":"completed","n":232000,"g":232000,"r":0,"d":1,"l":1,"dl":18.0,"rt":3.0,"se":"Negative"},{"m":"2026-03","wd":5,"sl":1,"hr":14,"z":"North","s":"Regular","c":"Asian","t":"Budget","o":"completed","n":123000,"g":123000,"r":0,"d":1,"l":0,"dl":-13.0,"rt":4.0,"se":"Negative"},{"m":"2026-01","wd":0,"sl":2,"hr":15,"z":"South","s":"Regular","c":"Indonesian","t":"Mid","o":"completed","n":131000,"g":131000,"r":0,"d":1,"l":0,"dl":-13.0,"rt":3.0,"se":"Positive"},{"m":"2026-02","wd":4,"sl":0,"hr":3,"z":"North","s":"New","c":"Fast Food","t":"Mid","o":"completed","n":151000,"g":151000,"r":0,"d":1,"l":1,"dl":6.0,"rt":1.0,"se":"Positive"},{"m":"2026-02","wd":1,"sl":1,"hr":14,"z":"South","s":"Regular","c":"Western","t":"Mid","o":"completed","n":202000,"g":202000,"r":0,"d":1,"l":1,"dl":16.0,"rt":4.0,"se":"Positive"},{"m":"2026-02","wd":6,"sl":0,"hr":2,"z":"West","s":"Regular","c":"Asian","t":"Premium","o":"completed","n":101000,"g":101000,"r":0,"d":1,"l":0,"dl":-2.0,"rt":3.0,"se":"Unknown"},{"m":"2026-02","wd":2,"sl":1,"hr":14,"z":"Central","s":"New","c":"Indonesian","t":"Premium","o":"completed","n":148000,"g":148000,"r":0,"d":1,"l":0,"dl":-1.0,"rt":null,"se":null},{"m":"2026-01","wd":4,"sl":0,"hr":9,"z":"Central","s":"New","c":"Dessert","t":"Mid","o":"completed","n":263000,"g":263000,"r":0,"d":1,"l":0,"dl":-11.0,"rt":null,"se":null},{"m":"2026-01","wd":4,"sl":0,"hr":4,"z":"North","s":"New","c":"Western","t":"Mid","o":"completed","n":142000,"g":142000,"r":0,"d":1,"l":0,"dl":-8.0,"rt":4.0,"se":"Positive"},{"m":"2026-03","wd":6,"sl":1,"hr":12,"z":"North","s":"New","c":"Asian","t":"Mid","o":"completed","n":133000,"g":133000,"r":0,"d":1,"l":0,"dl":-12.0,"rt":null,"se":null},{"m":"2026-03","wd":5,"sl":3,"hr":18,"z":"North","s":"Loyal","c":"Indonesian","t":"Budget","o":"completed","n":163000,"g":163000,"r":0,"d":1,"l":1,"dl":7.0,"rt":null,"se":null},{"m":"2026-01","wd":2,"sl":1,"hr":13,"z":"West","s":"Loyal","c":"Dessert","t":"Premium","o":"completed","n":235000,"g":235000,"r":0,"d":1,"l":1,"dl":20.0,"rt":null,"se":null},{"m":"2026-01","wd":1,"sl":0,"hr":3,"z":"South","s":"New","c":"Cafe & Beverage","t":"Mid","o":"completed","n":97000,"g":97000,"r":0,"d":1,"l":0,"dl":-2.0,"rt":3.0,"se":"Positive"},{"m":"2026-01","wd":6,"sl":2,"hr":16,"z":"Central","s":"New","c":"Asian","t":"Budget","o":"completed","n":142000,"g":142000,"r":0,"d":1,"l":0,"dl":-3.0,"rt":5.0,"se":"Positive"},{"m":"2026-01","wd":4,"sl":1,"hr":11,"z":"North","s":"New","c":"Indonesian","t":"Budget","o":"completed","n":61000,"g":61000,"r":0,"d":1,"l":1,"dl":9.0,"rt":3.0,"se":"Negative"},{"m":"2026-02","wd":0,"sl":3,"hr":18,"z":"West","s":"Loyal","c":"Dessert","t":"Mid","o":"completed","n":1068000,"g":1068000,"r":0,"d":1,"l":0,"dl":-2.0,"rt":null,"se":null},{"m":"2026-02","wd":3,"sl":1,"hr":11,"z":"North","s":"New","c":"Cafe & Beverage","t":"Mid","o":"completed","n":93000,"g":93000,"r":0,"d":1,"l":0,"dl":-10.0,"rt":5.0,"se":"Neutral"},{"m":"2026-01","wd":2,"sl":0,"hr":2,"z":"East","s":"Regular","c":"Fast Food","t":"Mid","o":"completed","n":19000,"g":19000,"r":0,"d":1,"l":1,"dl":12.0,"rt":null,"se":null},{"m":"2026-02","wd":4,"sl":3,"hr":21,"z":"Central","s":"Regular","c":"Indonesian","t":"Mid","o":"completed","n":68000,"g":68000,"r":0,"d":1,"l":0,"dl":-6.0,"rt":null,"se":null},{"m":"2026-03","wd":4,"sl":3,"hr":20,"z":"South","s":"Loyal","c":"Dessert","t":"Mid","o":"completed","n":142000,"g":142000,"r":0,"d":1,"l":0,"dl":-14.0,"rt":4.0,"se":"Neutral"},{"m":"2026-02","wd":0,"sl":2,"hr":17,"z":"Central","s":"Regular","c":"Cafe & Beverage","t":"Mid","o":"completed","n":221000,"g":221000,"r":0,"d":1,"l":0,"dl":-7.0,"rt":4.0,"se":"Unknown"},{"m":"2026-02","wd":4,"sl":3,"hr":20,"z":"South","s":"Loyal","c":"Fast Food","t":"Budget","o":"completed","n":93000,"g":93000,"r":0,"d":1,"l":1,"dl":17.0,"rt":null,"se":null},{"m":"2026-02","wd":2,"sl":0,"hr":6,"z":"Central","s":"Regular","c":"Western","t":"Premium","o":"completed","n":67000,"g":67000,"r":0,"d":1,"l":0,"dl":0.0,"rt":5.0,"se":"Positive"},{"m":"2026-02","wd":2,"sl":3,"hr":22,"z":"Central","s":"Loyal","c":"Dessert","t":"Mid","o":"completed","n":37000,"g":37000,"r":0,"d":1,"l":0,"dl":-10.0,"rt":3.0,"se":"Positive"},{"m":"2026-01","wd":0,"sl":0,"hr":4,"z":"South","s":"Regular","c":"Cafe & Beverage","t":"Mid","o":"completed","n":161000,"g":161000,"r":0,"d":1,"l":0,"dl":-1.0,"rt":5.0,"se":"Positive"},{"m":"2026-03","wd":6,"sl":1,"hr":13,"z":"North","s":"New","c":"Fast Food","t":"Premium","o":"completed","n":172000,"g":172000,"r":0,"d":1,"l":0,"dl":-6.0,"rt":5.0,"se":"Positive"},{"m":"2026-01","wd":6,"sl":1,"hr":14,"z":"North","s":"Regular","c":"Western","t":"Mid","o":"completed","n":169000,"g":169000,"r":0,"d":1,"l":0,"dl":-6.0,"rt":5.0,"se":"No Text"},{"m":"2026-02","wd":6,"sl":0,"hr":6,"z":"South","s":"Regular","c":"Asian","t":"Budget","o":"completed","n":130000,"g":130000,"r":0,"d":1,"l":1,"dl":24.0,"rt":null,"se":null},{"m":"2026-01","wd":3,"sl":3,"hr":19,"z":"North","s":"New","c":"Indonesian","t":"Mid","o":"completed","n":108000,"g":108000,"r":0,"d":1,"l":1,"dl":15.0,"rt":1.0,"se":"No Text"},{"m":"2026-01","wd":6,"sl":0,"hr":2,"z":"South","s":"Regular","c":"Fast Food","t":"Mid","o":"completed","n":122000,"g":122000,"r":0,"d":1,"l":1,"dl":25.0,"rt":3.0,"se":"Neutral"},{"m":"2026-02","wd":0,"sl":1,"hr":12,"z":"West","s":"Regular","c":"Western","t":"Mid","o":"completed","n":112000,"g":112000,"r":0,"d":1,"l":0,"dl":0.0,"rt":5.0,"se":"Positive"},{"m":"2026-02","wd":1,"sl":3,"hr":19,"z":"Central","s":"New","c":"Asian","t":"Premium","o":"completed","n":60000,"g":60000,"r":0,"d":1,"l":1,"dl":22.0,"rt":4.0,"se":"Neutral"},{"m":"2026-02","wd":4,"sl":3,"hr":21,"z":"Central","s":"New","c":"Indonesian","t":"Premium","o":"completed","n":168000,"g":168000,"r":0,"d":1,"l":0,"dl":-4.0,"rt":3.0,"se":"Positive"},{"m":"2026-03","wd":0,"sl":3,"hr":22,"z":"North","s":"New","c":"Dessert","t":"Mid","o":"completed","n":194000,"g":194000,"r":0,"d":1,"l":0,"dl":-1.0,"rt":null,"se":null},{"m":"2026-01","wd":5,"sl":0,"hr":4,"z":"North","s":"New","c":"Western","t":"Mid","o":"completed","n":170000,"g":170000,"r":0,"d":1,"l":0,"dl":-5.0,"rt":5.0,"se":"No Text"},{"m":"2026-01","wd":4,"sl":0,"hr":3,"z":"North","s":"Loyal","c":"Asian","t":"Mid","o":"completed","n":82000,"g":82000,"r":0,"d":1,"l":1,"dl":23.0,"rt":3.0,"se":"Unknown"},{"m":"2026-01","wd":0,"sl":3,"hr":21,"z":"West","s":"Loyal","c":"Indonesian","t":"Budget","o":"completed","n":128000,"g":128000,"r":0,"d":1,"l":0,"dl":-2.0,"rt":null,"se":null},{"m":"2026-02","wd":3,"sl":0,"hr":8,"z":"South","s":"New","c":"Dessert","t":"Premium","o":"completed","n":19000,"g":19000,"r":0,"d":1,"l":1,"dl":6.0,"rt":2.0,"se":"Negative"},{"m":"2026-01","wd":4,"sl":1,"hr":11,"z":"Central","s":"New","c":"Cafe & Beverage","t":"Mid","o":"completed","n":217000,"g":217000,"r":0,"d":1,"l":0,"dl":-12.0,"rt":null,"se":null},{"m":"2026-02","wd":2,"sl":3,"hr":23,"z":"North","s":"New","c":"Asian","t":"Budget","o":"completed","n":119000,"g":119000,"r":0,"d":1,"l":0,"dl":0.0,"rt":null,"se":null},{"m":"2026-02","wd":0,"sl":0,"hr":2,"z":"West","s":"Loyal","c":"Indonesian","t":"Budget","o":"completed","n":54000,"g":54000,"r":0,"d":1,"l":0,"dl":-1.0,"rt":5.0,"se":"Neutral"},{"m":"2026-01","wd":3,"sl":2,"hr":16,"z":"North","s":"New","c":"Dessert","t":"Mid","o":"completed","n":70000,"g":70000,"r":0,"d":1,"l":0,"dl":-6.0,"rt":5.0,"se":"Positive"},{"m":"2026-01","wd":5,"sl":0,"hr":7,"z":"East","s":"Regular","c":"Cafe & Beverage","t":"Mid","o":"completed","n":121000,"g":121000,"r":0,"d":1,"l":0,"dl":-1.0,"rt":5.0,"se":"Positive"},{"m":"2026-03","wd":0,"sl":0,"hr":1,"z":"Central","s":"Regular","c":"Fast Food","t":"Mid","o":"completed","n":34000,"g":34000,"r":0,"d":1,"l":0,"dl":0.0,"rt":null,"se":null},{"m":"2026-03","wd":2,"sl":0,"hr":8,"z":"South","s":"Loyal","c":"Indonesian","t":"Mid","o":"completed","n":101000,"g":101000,"r":0,"d":1,"l":0,"dl":-6.0,"rt":null,"se":null},{"m":"2026-03","wd":5,"sl":0,"hr":0,"z":"Central","s":"Regular","c":"Dessert","t":"Mid","o":"completed","n":217000,"g":217000,"r":0,"d":1,"l":1,"dl":15.0,"rt":4.0,"se":"Neutral"},{"m":"2026-02","wd":1,"sl":3,"hr":21,"z":"South","s":"Loyal","c":"Cafe & Beverage","t":"Mid","o":"completed","n":52000,"g":52000,"r":0,"d":1,"l":1,"dl":18.0,"rt":3.0,"se":"Positive"},{"m":"2026-03","wd":1,"sl":0,"hr":9,"z":"Central","s":"Regular","c":"Fast Food","t":"Budget","o":"completed","n":111000,"g":111000,"r":0,"d":1,"l":0,"dl":-14.0,"rt":4.0,"se":"Positive"},{"m":"2026-03","wd":6,"sl":2,"hr":17,"z":"Central","s":"Loyal","c":"Western","t":"Premium","o":"completed","n":167000,"g":167000,"r":0,"d":1,"l":1,"dl":9.0,"rt":1.0,"se":"No Text"},{"m":"2026-03","wd":3,"sl":0,"hr":5,"z":"South","s":"Regular","c":"Dessert","t":"Mid","o":"completed","n":203000,"g":203000,"r":0,"d":1,"l":0,"dl":-1.0,"rt":null,"se":null},{"m":"2026-01","wd":6,"sl":2,"hr":15,"z":"North","s":"New","c":"Cafe & Beverage","t":"Mid","o":"completed","n":140000,"g":140000,"r":0,"d":1,"l":0,"dl":-1.0,"rt":4.0,"se":"Positive"},{"m":"2026-01","wd":4,"sl":3,"hr":19,"z":"North","s":"Regular","c":"Fast Food","t":"Premium","o":"completed","n":77000,"g":77000,"r":0,"d":1,"l":0,"dl":-8.0,"rt":5.0,"se":"Neutral"},{"m":"2026-02","wd":6,"sl":0,"hr":5,"z":"South","s":"Regular","c":"Western","t":"Mid","o":"completed","n":120000,"g":120000,"r":0,"d":1,"l":0,"dl":-13.0,"rt":4.0,"se":"Positive"},{"m":"2026-03","wd":4,"sl":1,"hr":13,"z":"North","s":"New","c":"Asian","t":"Budget","o":"completed","n":13000,"g":13000,"r":0,"d":1,"l":1,"dl":19.0,"rt":3.0,"se":"Negative"},{"m":"2026-01","wd":1,"sl":0,"hr":1,"z":"South","s":"Regular","c":"Indonesian","t":"Mid","o":"completed","n":112000,"g":112000,"r":0,"d":1,"l":1,"dl":25.0,"rt":null,"se":null},{"m":"2026-03","wd":0,"sl":1,"hr":12,"z":"West","s":"Regular","c":"Fast Food","t":"Mid","o":"completed","n":102000,"g":102000,"r":0,"d":1,"l":1,"dl":23.0,"rt":2.0,"se":"Positive"},{"m":"2026-01","wd":3,"sl":1,"hr":12,"z":"Central","s":"New","c":"Western","t":"Mid","o":"completed","n":124000,"g":124000,"r":0,"d":1,"l":0,"dl":-11.0,"rt":null,"se":null},{"m":"2026-03","wd":5,"sl":0,"hr":0,"z":"Central","s":"New","c":"Asian","t":"Premium","o":"completed","n":59000,"g":59000,"r":0,"d":1,"l":0,"dl":-4.0,"rt":4.0,"se":"Neutral"},{"m":"2026-01","wd":4,"sl":0,"hr":9,"z":"North","s":"New","c":"Indonesian","t":"Premium","o":"completed","n":105000,"g":105000,"r":0,"d":1,"l":0,"dl":0.0,"rt":5.0,"se":"Positive"},{"m":"2026-03","wd":1,"sl":0,"hr":1,"z":"North","s":"New","c":"Dessert","t":"Mid","o":"completed","n":102000,"g":102000,"r":0,"d":1,"l":1,"dl":7.0,"rt":2.0,"se":"Neutral"},{"m":"2026-02","wd":2,"sl":0,"hr":0,"z":"North","s":"Loyal","c":"Western","t":"Mid","o":"completed","n":17000,"g":17000,"r":0,"d":1,"l":0,"dl":-12.0,"rt":4.0,"se":"Positive"},{"m":"2026-01","wd":0,"sl":0,"hr":1,"z":"West","s":"Loyal","c":"Asian","t":"Mid","o":"completed","n":95000,"g":95000,"r":0,"d":1,"l":1,"dl":6.0,"rt":2.0,"se":"Negative"},{"m":"2026-03","wd":0,"sl":1,"hr":11,"z":"South","s":"New","c":"Indonesian","t":"Budget","o":"completed","n":153000,"g":153000,"r":0,"d":1,"l":0,"dl":-12.0,"rt":5.0,"se":"Positive"},{"m":"2026-01","wd":5,"sl":0,"hr":1,"z":"Central","s":"New","c":"Dessert","t":"Premium","o":"completed","n":175000,"g":175000,"r":0,"d":1,"l":0,"dl":-2.0,"rt":null,"se":null},{"m":"2026-02","wd":6,"sl":0,"hr":2,"z":"North","s":"New","c":"Cafe & Beverage","t":"Mid","o":"completed","n":75000,"g":75000,"r":0,"d":1,"l":0,"dl":-7.0,"rt":4.0,"se":"Neutral"},{"m":"2026-03","wd":0,"sl":1,"hr":12,"z":"West","s":"Loyal","c":"Asian","t":"Budget","o":"completed","n":58000,"g":58000,"r":0,"d":1,"l":0,"dl":-3.0,"rt":4.0,"se":"Neutral"},{"m":"2026-02","wd":2,"sl":2,"hr":15,"z":"North","s":"New","c":"Indonesian","t":"Budget","o":"completed","n":205000,"g":205000,"r":0,"d":1,"l":0,"dl":-4.0,"rt":2.0,"se":"Neutral"},{"m":"2026-02","wd":2,"sl":3,"hr":23,"z":"East","s":"Regular","c":"Dessert","t":"Mid","o":"completed","n":118000,"g":118000,"r":0,"d":1,"l":0,"dl":-6.0,"rt":5.0,"se":"Negative"},{"m":"2026-02","wd":3,"sl":1,"hr":13,"z":"Central","s":"Regular","c":"Cafe & Beverage","t":"Mid","o":"completed","n":71000,"g":71000,"r":0,"d":1,"l":0,"dl":-8.0,"rt":3.0,"se":"Neutral"},{"m":"2026-01","wd":5,"sl":0,"hr":0,"z":"South","s":"Loyal","c":"Fast Food","t":"Mid","o":"completed","n":138000,"g":138000,"r":0,"d":1,"l":0,"dl":-4.0,"rt":5.0,"se":"Positive"},{"m":"2026-01","wd":1,"sl":3,"hr":21,"z":"Central","s":"Regular","c":"Indonesian","t":"Mid","o":"completed","n":119000,"g":119000,"r":0,"d":1,"l":0,"dl":-10.0,"rt":null,"se":null},{"m":"2026-01","wd":1,"sl":1,"hr":14,"z":"South","s":"Loyal","c":"Dessert","t":"Mid","o":"completed","n":96000,"g":96000,"r":0,"d":1,"l":0,"dl":-8.0,"rt":5.0,"se":"No Text"},{"m":"2026-02","wd":3,"sl":3,"hr":23,"z":"Central","s":"Regular","c":"Cafe & Beverage","t":"Mid","o":"completed","n":44000,"g":44000,"r":0,"d":1,"l":0,"dl":-10.0,"rt":null,"se":null},{"m":"2026-02","wd":4,"sl":3,"hr":18,"z":"Central","s":"Loyal","c":"Fast Food","t":"Budget","o":"completed","n":118000,"g":118000,"r":0,"d":1,"l":0,"dl":-5.0,"rt":4.0,"se":"Neutral"},{"m":"2026-01","wd":0,"sl":3,"hr":22,"z":"South","s":"Regular","c":"Western","t":"Premium","o":"completed","n":118000,"g":118000,"r":0,"d":1,"l":1,"dl":17.0,"rt":3.0,"se":"Negative"},{"m":"2026-03","wd":4,"sl":1,"hr":14,"z":"North","s":"New","c":"Dessert","t":"Mid","o":"completed","n":90000,"g":90000,"r":0,"d":1,"l":0,"dl":-12.0,"rt":5.0,"se":"Negative"},{"m":"2026-02","wd":4,"sl":0,"hr":2,"z":"North","s":"Regular","c":"Cafe & Beverage","t":"Mid","o":"completed","n":96000,"g":96000,"r":0,"d":1,"l":1,"dl":23.0,"rt":null,"se":null},{"m":"2026-01","wd":2,"sl":0,"hr":8,"z":"South","s":"Regular","c":"Fast Food","t":"Premium","o":"completed","n":132000,"g":132000,"r":0,"d":1,"l":0,"dl":-7.0,"rt":4.0,"se":"Neutral"},{"m":"2026-03","wd":0,"sl":0,"hr":1,"z":"North","s":"New","c":"Western","t":"Mid","o":"completed","n":154000,"g":154000,"r":0,"d":1,"l":1,"dl":22.0,"rt":2.0,"se":"Positive"},{"m":"2026-01","wd":4,"sl":1,"hr":11,"z":"South","s":"Regular","c":"Asian","t":"Budget","o":"completed","n":123000,"g":123000,"r":0,"d":1,"l":0,"dl":-10.0,"rt":1.0,"se":"Positive"},{"m":"2026-01","wd":4,"sl":3,"hr":22,"z":"West","s":"Regular","c":"Indonesian","t":"Mid","o":"completed","n":154000,"g":154000,"r":0,"d":1,"l":0,"dl":-8.0,"rt":null,"se":null},{"m":"2026-01","wd":6,"sl":2,"hr":17,"z":"Central","s":"New","c":"Fast Food","t":"Mid","o":"completed","n":54000,"g":54000,"r":0,"d":1,"l":0,"dl":0.0,"rt":3.0,"se":"Negative"},{"m":"2026-03","wd":3,"sl":0,"hr":9,"z":"Central","s":"New","c":"Western","t":"Mid","o":"completed","n":129000,"g":129000,"r":0,"d":1,"l":0,"dl":-1.0,"rt":4.0,"se":"Positive"},{"m":"2026-02","wd":0,"sl":3,"hr":18,"z":"North","s":"New","c":"Asian","t":"Premium","o":"completed","n":190000,"g":190000,"r":0,"d":1,"l":0,"dl":-13.0,"rt":4.0,"se":"Positive"},{"m":"2026-02","wd":4,"sl":3,"hr":19,"z":"North","s":"New","c":"Indonesian","t":"Premium","o":"completed","n":147000,"g":147000,"r":0,"d":1,"l":1,"dl":20.0,"rt":3.0,"se":"Neutral"},{"m":"2026-02","wd":1,"sl":0,"hr":3,"z":"North","s":"Loyal","c":"Dessert","t":"Mid","o":"completed","n":87000,"g":87000,"r":0,"d":1,"l":0,"dl":-12.0,"rt":5.0,"se":"Neutral"},{"m":"2026-02","wd":2,"sl":1,"hr":11,"z":"West","s":"Loyal","c":"Western","t":"Mid","o":"completed","n":35000,"g":35000,"r":0,"d":1,"l":0,"dl":-7.0,"rt":5.0,"se":"Positive"},{"m":"2026-02","wd":6,"sl":0,"hr":3,"z":"South","s":"New","c":"Asian","t":"Mid","o":"completed","n":124000,"g":124000,"r":0,"d":1,"l":0,"dl":-3.0,"rt":null,"se":null},{"m":"2026-01","wd":4,"sl":0,"hr":2,"z":"Central","s":"New","c":"Indonesian","t":"Budget","o":"completed","n":150000,"g":150000,"r":0,"d":1,"l":0,"dl":-12.0,"rt":null,"se":null},{"m":"2026-01","wd":0,"sl":0,"hr":6,"z":"North","s":"New","c":"Dessert","t":"Premium","o":"completed","n":227000,"g":227000,"r":0,"d":1,"l":0,"dl":-2.0,"rt":4.0,"se":"Positive"},{"m":"2026-02","wd":1,"sl":1,"hr":14,"z":"West","s":"Loyal","c":"Cafe & Beverage","t":"Mid","o":"completed","n":92000,"g":92000,"r":0,"d":1,"l":0,"dl":-9.0,"rt":null,"se":null},{"m":"2026-02","wd":5,"sl":0,"hr":4,"z":"North","s":"New","c":"Asian","t":"Budget","o":"completed","n":121000,"g":121000,"r":0,"d":1,"l":0,"dl":-13.0,"rt":5.0,"se":"Positive"},{"m":"2026-03","wd":6,"sl":0,"hr":5,"z":"East","s":"Regular","c":"Indonesian","t":"Budget","o":"completed","n":199000,"g":199000,"r":0,"d":1,"l":0,"dl":-13.0,"rt":4.0,"se":"Unknown"},{"m":"2026-02","wd":6,"sl":0,"hr":0,"z":"Central","s":"Regular","c":"Dessert","t":"Mid","o":"completed","n":41000,"g":41000,"r":0,"d":1,"l":1,"dl":6.0,"rt":1.0,"se":"Positive"},{"m":"2026-01","wd":5,"sl":3,"hr":23,"z":"South","s":"Loyal","c":"Cafe & Beverage","t":"Mid","o":"completed","n":73000,"g":73000,"r":0,"d":1,"l":0,"dl":-8.0,"rt":5.0,"se":"Positive"},{"m":"2026-02","wd":1,"sl":2,"hr":15,"z":"Central","s":"Regular","c":"Fast Food","t":"Mid","o":"completed","n":161000,"g":161000,"r":0,"d":1,"l":0,"dl":-8.0,"rt":4.0,"se":"Unknown"},{"m":"2026-01","wd":1,"sl":0,"hr":1,"z":"South","s":"Loyal","c":"Indonesian","t":"Mid","o":"completed","n":80000,"g":80000,"r":0,"d":1,"l":1,"dl":17.0,"rt":null,"se":null},{"m":"2026-01","wd":4,"sl":0,"hr":6,"z":"Central","s":"Regular","c":"Dessert","t":"Mid","o":"completed","n":152000,"g":152000,"r":0,"d":1,"l":0,"dl":0.0,"rt":5.0,"se":"Neutral"},{"m":"2026-02","wd":0,"sl":0,"hr":10,"z":"Central","s":"Loyal","c":"Cafe & Beverage","t":"Mid","o":"completed","n":171000,"g":171000,"r":0,"d":1,"l":0,"dl":-14.0,"rt":5.0,"se":"Positive"},{"m":"2026-03","wd":0,"sl":0,"hr":4,"z":"South","s":"Regular","c":"Fast Food","t":"Budget","o":"completed","n":62000,"g":62000,"r":0,"d":1,"l":0,"dl":-7.0,"rt":null,"se":null},{"m":"2026-03","wd":1,"sl":3,"hr":19,"z":"North","s":"New","c":"Western","t":"Premium","o":"completed","n":251000,"g":251000,"r":0,"d":1,"l":0,"dl":-6.0,"rt":5.0,"se":"Positive"},{"m":"2026-03","wd":1,"sl":3,"hr":23,"z":"North","s":"Regular","c":"Dessert","t":"Mid","o":"completed","n":68000,"g":68000,"r":0,"d":1,"l":1,"dl":14.0,"rt":3.0,"se":"Neutral"},{"m":"2026-01","wd":5,"sl":1,"hr":11,"z":"South","s":"Regular","c":"Cafe & Beverage","t":"Mid","o":"completed","n":152000,"g":152000,"r":0,"d":1,"l":0,"dl":-4.0,"rt":4.0,"se":"Unknown"},{"m":"2026-03","wd":3,"sl":3,"hr":23,"z":"North","s":"New","c":"Fast Food","t":"Premium","o":"completed","n":68000,"g":68000,"r":0,"d":1,"l":0,"dl":-6.0,"rt":5.0,"se":"Positive"},{"m":"2026-03","wd":5,"sl":3,"hr":19,"z":"South","s":"Regular","c":"Western","t":"Mid","o":"completed","n":128000,"g":128000,"r":0,"d":1,"l":0,"dl":-10.0,"rt":null,"se":null},{"m":"2026-03","wd":6,"sl":0,"hr":7,"z":"West","s":"Regular","c":"Asian","t":"Budget","o":"completed","n":82000,"g":82000,"r":0,"d":1,"l":0,"dl":-5.0,"rt":null,"se":null},{"m":"2026-01","wd":0,"sl":0,"hr":5,"z":"Central","s":"New","c":"Indonesian","t":"Mid","o":"completed","n":111000,"g":111000,"r":0,"d":1,"l":0,"dl":-2.0,"rt":null,"se":null},{"m":"2026-03","wd":2,"sl":0,"hr":7,"z":"Central","s":"New","c":"Fast Food","t":"Mid","o":"completed","n":80000,"g":80000,"r":0,"d":1,"l":1,"dl":62.0,"rt":null,"se":null},{"m":"2026-02","wd":2,"sl":0,"hr":10,"z":"North","s":"New","c":"Western","t":"Mid","o":"completed","n":156000,"g":156000,"r":0,"d":1,"l":0,"dl":-6.0,"rt":null,"se":null},{"m":"2026-01","wd":2,"sl":0,"hr":1,"z":"North","s":"New","c":"Asian","t":"Premium","o":"completed","n":172000,"g":172000,"r":0,"d":1,"l":0,"dl":0.0,"rt":4.0,"se":"Positive"},{"m":"2026-03","wd":1,"sl":0,"hr":9,"z":"North","s":"Loyal","c":"Indonesian","t":"Premium","o":"completed","n":109000,"g":109000,"r":0,"d":1,"l":1,"dl":24.0,"rt":null,"se":null},{"m":"2026-03","wd":0,"sl":1,"hr":11,"z":"West","s":"Loyal","c":"Dessert","t":"Mid","o":"completed","n":61000,"g":61000,"r":0,"d":1,"l":1,"dl":16.0,"rt":4.0,"se":"Negative"},{"m":"2026-03","wd":4,"sl":2,"hr":16,"z":"South","s":"New","c":"Western","t":"Mid","o":"completed","n":218000,"g":218000,"r":0,"d":1,"l":0,"dl":-8.0,"rt":null,"se":null},{"m":"2026-02","wd":3,"sl":3,"hr":20,"z":"Central","s":"New","c":"Asian","t":"Mid","o":"completed","n":195000,"g":195000,"r":0,"d":1,"l":1,"dl":14.0,"rt":4.0,"se":"No Text"},{"m":"2026-02","wd":0,"sl":0,"hr":8,"z":"North","s":"New","c":"Indonesian","t":"Budget","o":"completed","n":132000,"g":132000,"r":0,"d":1,"l":0,"dl":-4.0,"rt":3.0,"se":"Positive"},{"m":"2026-02","wd":6,"sl":1,"hr":14,"z":"West","s":"Loyal","c":"Dessert","t":"Premium","o":"completed","n":152000,"g":152000,"r":0,"d":1,"l":0,"dl":-4.0,"rt":4.0,"se":"Positive"},{"m":"2026-01","wd":5,"sl":3,"hr":21,"z":"North","s":"New","c":"Cafe & Beverage","t":"Mid","o":"completed","n":60000,"g":60000,"r":0,"d":1,"l":0,"dl":-11.0,"rt":2.0,"se":"Neutral"},{"m":"2026-03","wd":4,"sl":0,"hr":10,"z":"East","s":"Regular","c":"Asian","t":"Budget","o":"completed","n":190000,"g":190000,"r":0,"d":1,"l":0,"dl":-12.0,"rt":2.0,"se":"Positive"},{"m":"2026-02","wd":6,"sl":0,"hr":7,"z":"Central","s":"Regular","c":"Indonesian","t":"Budget","o":"completed","n":215000,"g":215000,"r":0,"d":1,"l":0,"dl":-14.0,"rt":null,"se":null},{"m":"2026-02","wd":6,"sl":0,"hr":9,"z":"South","s":"Loyal","c":"Dessert","t":"Mid","o":"completed","n":135000,"g":135000,"r":0,"d":1,"l":1,"dl":19.0,"rt":null,"se":null},{"m":"2026-03","wd":3,"sl":3,"hr":21,"z":"Central","s":"Regular","c":"Cafe & Beverage","t":"Mid","o":"completed","n":89000,"g":89000,"r":0,"d":1,"l":0,"dl":-8.0,"rt":null,"se":null},{"m":"2026-02","wd":2,"sl":3,"hr":21,"z":"South","s":"Loyal","c":"Fast Food","t":"Mid","o":"completed","n":109000,"g":109000,"r":0,"d":1,"l":1,"dl":22.0,"rt":4.0,"se":"Negative"},{"m":"2026-03","wd":4,"sl":0,"hr":7,"z":"Central","s":"Regular","c":"Indonesian","t":"Mid","o":"completed","n":53000,"g":53000,"r":0,"d":1,"l":0,"dl":-10.0,"rt":4.0,"se":"Positive"},{"m":"2026-02","wd":0,"sl":1,"hr":14,"z":"Central","s":"Loyal","c":"Dessert","t":"Mid","o":"completed","n":65000,"g":65000,"r":0,"d":1,"l":1,"dl":7.0,"rt":null,"se":null},{"m":"2026-03","wd":6,"sl":0,"hr":9,"z":"South","s":"Regular","c":"Cafe & Beverage","t":"Mid","o":"completed","n":149000,"g":149000,"r":0,"d":1,"l":0,"dl":-4.0,"rt":3.0,"se":"Neutral"},{"m":"2026-02","wd":1,"sl":0,"hr":4,"z":"North","s":"New","c":"Fast Food","t":"Budget","o":"completed","n":104000,"g":104000,"r":0,"d":1,"l":0,"dl":-1.0,"rt":null,"se":null},{"m":"2026-02","wd":3,"sl":2,"hr":17,"z":"North","s":"Regular","c":"Western","t":"Premium","o":"completed","n":222000,"g":222000,"r":0,"d":1,"l":0,"dl":-3.0,"rt":4.0,"se":"Positive"},{"m":"2026-01","wd":1,"sl":1,"hr":11,"z":"South","s":"Regular","c":"Dessert","t":"Mid","o":"completed","n":103000,"g":103000,"r":0,"d":1,"l":1,"dl":19.0,"rt":2.0,"se":"Neutral"},{"m":"2026-03","wd":2,"sl":3,"hr":18,"z":"North","s":"New","c":"Cafe & Beverage","t":"Mid","o":"completed","n":84000,"g":84000,"r":0,"d":1,"l":0,"dl":-3.0,"rt":null,"se":null},{"m":"2026-01","wd":3,"sl":0,"hr":4,"z":"South","s":"Regular","c":"Fast Food","t":"Premium","o":"completed","n":134000,"g":134000,"r":0,"d":1,"l":1,"dl":25.0,"rt":3.0,"se":"Negative"},{"m":"2026-01","wd":1,"sl":0,"hr":4,"z":"West","s":"Regular","c":"Western","t":"Mid","o":"completed","n":124000,"g":124000,"r":0,"d":1,"l":1,"dl":21.0,"rt":null,"se":null},{"m":"2026-02","wd":1,"sl":0,"hr":2,"z":"Central","s":"New","c":"Asian","t":"Budget","o":"completed","n":150000,"g":150000,"r":0,"d":1,"l":1,"dl":5.0,"rt":3.0,"se":"Neutral"},{"m":"2026-01","wd":1,"sl":3,"hr":21,"z":"Central","s":"New","c":"Indonesian","t":"Mid","o":"completed","n":212000,"g":212000,"r":0,"d":1,"l":0,"dl":-12.0,"rt":4.0,"se":"Neutral"},{"m":"2026-02","wd":4,"sl":0,"hr":10,"z":"North","s":"New","c":"Fast Food","t":"Mid","o":"completed","n":159000,"g":159000,"r":0,"d":1,"l":0,"dl":-6.0,"rt":3.0,"se":"Neutral"},{"m":"2026-03","wd":4,"sl":3,"hr":23,"z":"North","s":"New","c":"Western","t":"Mid","o":"completed","n":55000,"g":55000,"r":0,"d":1,"l":0,"dl":-9.0,"rt":5.0,"se":"Positive"},{"m":"2026-01","wd":3,"sl":0,"hr":10,"z":"North","s":"Loyal","c":"Asian","t":"Premium","o":"completed","n":89000,"g":89000,"r":0,"d":1,"l":1,"dl":25.0,"rt":null,"se":null},{"m":"2026-01","wd":4,"sl":1,"hr":14,"z":"West","s":"Loyal","c":"Indonesian","t":"Premium","o":"completed","n":160000,"g":160000,"r":0,"d":1,"l":1,"dl":10.0,"rt":2.0,"se":"No Text"},{"m":"2026-03","wd":1,"sl":0,"hr":7,"z":"South","s":"New","c":"Dessert","t":"Mid","o":"completed","n":82000,"g":82000,"r":0,"d":1,"l":0,"dl":-8.0,"rt":3.0,"se":"Positive"},{"m":"2026-03","wd":0,"sl":0,"hr":1,"z":"Central","s":"New","c":"Western","t":"Mid","o":"completed","n":189000,"g":189000,"r":0,"d":1,"l":0,"dl":-13.0,"rt":4.0,"se":"Negative"},{"m":"2026-01","wd":4,"sl":3,"hr":18,"z":"North","s":"New","c":"Asian","t":"Mid","o":"completed","n":216000,"g":216000,"r":0,"d":1,"l":0,"dl":-2.0,"rt":5.0,"se":"Unknown"},{"m":"2026-02","wd":3,"sl":0,"hr":1,"z":"West","s":"Loyal","c":"Indonesian","t":"Budget","o":"completed","n":93000,"g":93000,"r":0,"d":1,"l":0,"dl":-6.0,"rt":4.0,"se":"Positive"},{"m":"2026-01","wd":0,"sl":1,"hr":13,"z":"North","s":"New","c":"Dessert","t":"Premium","o":"completed","n":216000,"g":216000,"r":0,"d":1,"l":0,"dl":-11.0,"rt":null,"se":null},{"m":"2026-03","wd":6,"sl":3,"hr":19,"z":"East","s":"Regular","c":"Cafe & Beverage","t":"Mid","o":"completed","n":44000,"g":44000,"r":0,"d":1,"l":0,"dl":-9.0,"rt":null,"se":null},{"m":"2026-03","wd":4,"sl":1,"hr":12,"z":"Central","s":"Regular","c":"Asian","t":"Budget","o":"completed","n":79000,"g":79000,"r":0,"d":1,"l":1,"dl":24.0,"rt":2.0,"se":"Positive"},{"m":"2026-01","wd":5,"sl":0,"hr":3,"z":"South","s":"Loyal","c":"Indonesian","t":"Budget","o":"completed","n":142000,"g":142000,"r":0,"d":1,"l":1,"dl":13.0,"rt":1.0,"se":"Negative"},{"m":"2026-01","wd":4,"sl":2,"hr":17,"z":"Central","s":"Regular","c":"Dessert","t":"Mid","o":"completed","n":47000,"g":47000,"r":0,"d":1,"l":1,"dl":17.0,"rt":null,"se":null},{"m":"2026-03","wd":6,"sl":0,"hr":10,"z":"South","s":"Loyal","c":"Cafe & Beverage","t":"Mid","o":"completed","n":127000,"g":127000,"r":0,"d":1,"l":0,"dl":-9.0,"rt":null,"se":null},{"m":"2026-02","wd":5,"sl":2,"hr":16,"z":"Central","s":"Regular","c":"Fast Food","t":"Mid","o":"completed","n":192000,"g":192000,"r":0,"d":1,"l":0,"dl":-2.0,"rt":5.0,"se":"Positive"},{"m":"2026-03","wd":5,"sl":1,"hr":14,"z":"Central","s":"Loyal","c":"Indonesian","t":"Mid","o":"completed","n":30000,"g":30000,"r":0,"d":1,"l":0,"dl":-1.0,"rt":null,"se":null},{"m":"2026-03","wd":2,"sl":0,"hr":6,"z":"South","s":"Regular","c":"Dessert","t":"Mid","o":"completed","n":223000,"g":223000,"r":0,"d":1,"l":1,"dl":17.0,"rt":null,"se":null},{"m":"2026-01","wd":2,"sl":3,"hr":19,"z":"North","s":"New","c":"Cafe & Beverage","t":"Mid","o":"completed","n":183000,"g":183000,"r":0,"d":1,"l":0,"dl":-6.0,"rt":null,"se":null},{"m":"2026-01","wd":6,"sl":0,"hr":8,"z":"North","s":"Regular","c":"Fast Food","t":"Budget","o":"completed","n":179000,"g":179000,"r":0,"d":1,"l":0,"dl":-14.0,"rt":null,"se":null},{"m":"2026-03","wd":2,"sl":1,"hr":13,"z":"South","s":"Regular","c":"Western","t":"Premium","o":"completed","n":84000,"g":84000,"r":0,"d":1,"l":0,"dl":-11.0,"rt":null,"se":null},{"m":"2026-03","wd":1,"sl":3,"hr":19,"z":"North","s":"New","c":"Dessert","t":"Mid","o":"completed","n":74000,"g":74000,"r":0,"d":1,"l":0,"dl":-3.0,"rt":null,"se":null},{"m":"2026-02","wd":4,"sl":0,"hr":7,"z":"South","s":"Regular","c":"Cafe & Beverage","t":"Mid","o":"completed","n":124000,"g":124000,"r":0,"d":1,"l":0,"dl":-11.0,"rt":4.0,"se":"Positive"},{"m":"2026-01","wd":5,"sl":0,"hr":10,"z":"West","s":"Regular","c":"Fast Food","t":"Premium","o":"completed","n":205000,"g":205000,"r":0,"d":1,"l":0,"dl":-5.0,"rt":null,"se":null},{"m":"2026-03","wd":1,"sl":0,"hr":4,"z":"Central","s":"New","c":"Western","t":"Mid","o":"completed","n":115000,"g":115000,"r":0,"d":1,"l":0,"dl":-4.0,"rt":4.0,"se":"Positive"},{"m":"2026-01","wd":6,"sl":0,"hr":4,"z":"Central","s":"New","c":"Asian","t":"Budget","o":"completed","n":148000,"g":148000,"r":0,"d":1,"l":1,"dl":5.0,"rt":4.0,"se":"Positive"},{"m":"2026-01","wd":0,"sl":0,"hr":8,"z":"North","s":"New","c":"Indonesian","t":"Mid","o":"completed","n":90000,"g":90000,"r":0,"d":1,"l":0,"dl":-14.0,"rt":null,"se":null},{"m":"2026-03","wd":0,"sl":0,"hr":7,"z":"North","s":"New","c":"Fast Food","t":"Mid","o":"completed","n":142000,"g":142000,"r":0,"d":1,"l":0,"dl":-3.0,"rt":null,"se":null},{"m":"2026-01","wd":6,"sl":1,"hr":13,"z":"North","s":"Loyal","c":"Western","t":"Mid","o":"completed","n":94000,"g":94000,"r":0,"d":1,"l":0,"dl":-2.0,"rt":3.0,"se":"Positive"},{"m":"2026-03","wd":6,"sl":0,"hr":2,"z":"West","s":"Loyal","c":"Asian","t":"Premium","o":"completed","n":65000,"g":65000,"r":0,"d":1,"l":1,"dl":7.0,"rt":3.0,"se":"Negative"},{"m":"2026-01","wd":3,"sl":0,"hr":1,"z":"South","s":"New","c":"Indonesian","t":"Premium","o":"completed","n":224000,"g":224000,"r":0,"d":1,"l":0,"dl":-1.0,"rt":4.0,"se":"Positive"},{"m":"2026-03","wd":4,"sl":3,"hr":23,"z":"Central","s":"New","c":"Dessert","t":"Mid","o":"completed","n":43000,"g":43000,"r":0,"d":1,"l":1,"dl":11.0,"rt":1.0,"se":"Neutral"},{"m":"2026-02","wd":2,"sl":0,"hr":5,"z":"North","s":"New","c":"Western","t":"Mid","o":"completed","n":106000,"g":106000,"r":0,"d":1,"l":0,"dl":-8.0,"rt":2.0,"se":"Positive"},{"m":"2026-03","wd":1,"sl":2,"hr":17,"z":"West","s":"Loyal","c":"Asian","t":"Mid","o":"completed","n":153000,"g":153000,"r":0,"d":1,"l":0,"dl":-6.0,"rt":5.0,"se":"Positive"},{"m":"2026-03","wd":3,"sl":0,"hr":0,"z":"North","s":"New","c":"Indonesian","t":"Budget","o":"completed","n":120000,"g":120000,"r":0,"d":1,"l":0,"dl":-7.0,"rt":4.0,"se":"Positive"},{"m":"2026-02","wd":1,"sl":2,"hr":16,"z":"East","s":"Regular","c":"Dessert","t":"Premium","o":"completed","n":188000,"g":188000,"r":0,"d":1,"l":0,"dl":-14.0,"rt":null,"se":null},{"m":"2026-02","wd":3,"sl":0,"hr":2,"z":"Central","s":"Regular","c":"Cafe & Beverage","t":"Mid","o":"completed","n":44000,"g":44000,"r":0,"d":1,"l":1,"dl":22.0,"rt":null,"se":null},{"m":"2026-02","wd":0,"sl":0,"hr":3,"z":"South","s":"Loyal","c":"Asian","t":"Budget","o":"completed","n":87000,"g":87000,"r":0,"d":1,"l":0,"dl":-2.0,"rt":null,"se":null},{"m":"2026-02","wd":0,"sl":0,"hr":8,"z":"Central","s":"Regular","c":"Indonesian","t":"Budget","o":"completed","n":162000,"g":162000,"r":0,"d":1,"l":0,"dl":-14.0,"rt":null,"se":null},{"m":"2026-01","wd":1,"sl":0,"hr":2,"z":"South","s":"Loyal","c":"Dessert","t":"Mid","o":"completed","n":256000,"g":256000,"r":0,"d":1,"l":0,"dl":-11.0,"rt":4.0,"se":"Neutral"},{"m":"2026-02","wd":2,"sl":0,"hr":5,"z":"Central","s":"Regular","c":"Cafe & Beverage","t":"Mid","o":"completed","n":216000,"g":216000,"r":0,"d":1,"l":0,"dl":0.0,"rt":2.0,"se":"Positive"},{"m":"2026-01","wd":5,"sl":1,"hr":13,"z":"Central","s":"Loyal","c":"Fast Food","t":"Mid","o":"completed","n":130000,"g":130000,"r":0,"d":1,"l":1,"dl":14.0,"rt":null,"se":null},{"m":"2026-01","wd":0,"sl":3,"hr":20,"z":"South","s":"Regular","c":"Indonesian","t":"Mid","o":"completed","n":72000,"g":72000,"r":0,"d":1,"l":1,"dl":6.0,"rt":2.0,"se":"Positive"},{"m":"2026-01","wd":0,"sl":3,"hr":20,"z":"North","s":"New","c":"Dessert","t":"Mid","o":"completed","n":129000,"g":129000,"r":0,"d":1,"l":0,"dl":-9.0,"rt":4.0,"se":"Positive"},{"m":"2026-01","wd":2,"sl":3,"hr":22,"z":"North","s":"Regular","c":"Cafe & Beverage","t":"Mid","o":"completed","n":87000,"g":87000,"r":0,"d":1,"l":0,"dl":-3.0,"rt":3.0,"se":"Neutral"},{"m":"2026-02","wd":0,"sl":3,"hr":22,"z":"South","s":"Regular","c":"Fast Food","t":"Budget","o":"completed","n":191000,"g":191000,"r":0,"d":1,"l":0,"dl":-11.0,"rt":3.0,"se":"Positive"},{"m":"2026-03","wd":2,"sl":1,"hr":14,"z":"North","s":"New","c":"Western","t":"Premium","o":"completed","n":123000,"g":123000,"r":0,"d":1,"l":0,"dl":-7.0,"rt":4.0,"se":"Positive"},{"m":"2026-02","wd":2,"sl":0,"hr":7,"z":"South","s":"Regular","c":"Dessert","t":"Mid","o":"completed","n":257000,"g":257000,"r":0,"d":1,"l":0,"dl":0.0,"rt":5.0,"se":"Positive"},{"m":"2026-03","wd":6,"sl":3,"hr":20,"z":"West","s":"Regular","c":"Cafe & Beverage","t":"Mid","o":"completed","n":165000,"g":165000,"r":0,"d":1,"l":1,"dl":18.0,"rt":null,"se":null},{"m":"2026-03","wd":0,"sl":0,"hr":1,"z":"Central","s":"New","c":"Fast Food","t":"Premium","o":"completed","n":60000,"g":60000,"r":0,"d":1,"l":1,"dl":8.0,"rt":2.0,"se":"Negative"},{"m":"2026-02","wd":5,"sl":0,"hr":8,"z":"Central","s":"New","c":"Western","t":"Mid","o":"completed","n":116000,"g":116000,"r":0,"d":1,"l":0,"dl":-3.0,"rt":null,"se":null},{"m":"2026-03","wd":2,"sl":0,"hr":7,"z":"North","s":"New","c":"Asian","t":"Budget","o":"completed","n":211000,"g":211000,"r":0,"d":1,"l":1,"dl":7.0,"rt":3.0,"se":"Neutral"},{"m":"2026-02","wd":6,"sl":3,"hr":21,"z":"North","s":"New","c":"Indonesian","t":"Mid","o":"completed","n":172000,"g":172000,"r":0,"d":1,"l":0,"dl":-3.0,"rt":4.0,"se":"Negative"},{"m":"2026-02","wd":6,"sl":3,"hr":19,"z":"North","s":"Loyal","c":"Fast Food","t":"Mid","o":"completed","n":68000,"g":68000,"r":0,"d":1,"l":1,"dl":24.0,"rt":3.0,"se":"Positive"},{"m":"2026-01","wd":2,"sl":0,"hr":8,"z":"West","s":"Loyal","c":"Western","t":"Mid","o":"completed","n":115000,"g":115000,"r":0,"d":1,"l":0,"dl":-9.0,"rt":5.0,"se":"Positive"},{"m":"2026-02","wd":5,"sl":0,"hr":9,"z":"South","s":"New","c":"Asian","t":"Premium","o":"completed","n":78000,"g":78000,"r":0,"d":1,"l":0,"dl":-2.0,"rt":null,"se":null},{"m":"2026-01","wd":0,"sl":1,"hr":13,"z":"Central","s":"New","c":"Indonesian","t":"Premium","o":"completed","n":77000,"g":77000,"r":0,"d":1,"l":0,"dl":-5.0,"rt":2.0,"se":"Negative"},{"m":"2026-03","wd":1,"sl":0,"hr":10,"z":"North","s":"New","c":"Dessert","t":"Mid","o":"completed","n":101000,"g":101000,"r":0,"d":1,"l":1,"dl":24.0,"rt":4.0,"se":"Positive"},{"m":"2026-01","wd":5,"sl":0,"hr":8,"z":"West","s":"Loyal","c":"Western","t":"Mid","o":"completed","n":51000,"g":51000,"r":0,"d":1,"l":1,"dl":6.0,"rt":1.0,"se":"Positive"},{"m":"2026-01","wd":6,"sl":0,"hr":2,"z":"North","s":"New","c":"Asian","t":"Mid","o":"completed","n":150000,"g":150000,"r":0,"d":1,"l":0,"dl":-2.0,"rt":null,"se":null},{"m":"2026-02","wd":5,"sl":0,"hr":3,"z":"East","s":"Regular","c":"Indonesian","t":"Budget","o":"completed","n":154000,"g":154000,"r":0,"d":1,"l":1,"dl":14.0,"rt":null,"se":null},{"m":"2026-02","wd":6,"sl":1,"hr":14,"z":"Central","s":"Regular","c":"Dessert","t":"Premium","o":"completed","n":122000,"g":122000,"r":0,"d":1,"l":1,"dl":21.0,"rt":4.0,"se":"Positive"},{"m":"2026-03","wd":1,"sl":3,"hr":20,"z":"South","s":"Loyal","c":"Cafe & Beverage","t":"Mid","o":"completed","n":165000,"g":165000,"r":0,"d":1,"l":0,"dl":-4.0,"rt":null,"se":null},{"m":"2026-01","wd":6,"sl":0,"hr":5,"z":"Central","s":"Regular","c":"Asian","t":"Budget","o":"completed","n":145000,"g":145000,"r":0,"d":1,"l":0,"dl":-12.0,"rt":null,"se":null},{"m":"2026-03","wd":1,"sl":0,"hr":6,"z":"South","s":"Loyal","c":"Indonesian","t":"Budget","o":"completed","n":192000,"g":192000,"r":0,"d":1,"l":0,"dl":-1.0,"rt":4.0,"se":"Positive"},{"m":"2026-03","wd":3,"sl":0,"hr":9,"z":"Central","s":"Regular","c":"Dessert","t":"Mid","o":"completed","n":101000,"g":101000,"r":0,"d":1,"l":0,"dl":0.0,"rt":5.0,"se":"Neutral"},{"m":"2026-03","wd":1,"sl":3,"hr":18,"z":"Central","s":"Loyal","c":"Cafe & Beverage","t":"Mid","o":"completed","n":152000,"g":152000,"r":0,"d":1,"l":0,"dl":-9.0,"rt":5.0,"se":"Positive"},{"m":"2026-02","wd":4,"sl":3,"hr":20,"z":"South","s":"Regular","c":"Fast Food","t":"Mid","o":"completed","n":91000,"g":91000,"r":0,"d":1,"l":0,"dl":-6.0,"rt":5.0,"se":"Positive"},{"m":"2026-02","wd":1,"sl":3,"hr":19,"z":"North","s":"New","c":"Indonesian","t":"Mid","o":"completed","n":83000,"g":83000,"r":0,"d":1,"l":0,"dl":-8.0,"rt":5.0,"se":"Neutral"},{"m":"2026-03","wd":0,"sl":3,"hr":21,"z":"North","s":"Regular","c":"Dessert","t":"Mid","o":"completed","n":131000,"g":131000,"r":0,"d":1,"l":0,"dl":-6.0,"rt":3.0,"se":"Positive"},{"m":"2026-01","wd":4,"sl":3,"hr":22,"z":"South","s":"Regular","c":"Cafe & Beverage","t":"Mid","o":"completed","n":163000,"g":163000,"r":0,"d":1,"l":0,"dl":-7.0,"rt":null,"se":null},{"m":"2026-02","wd":1,"sl":0,"hr":1,"z":"North","s":"New","c":"Fast Food","t":"Budget","o":"completed","n":167000,"g":167000,"r":0,"d":1,"l":0,"dl":0.0,"rt":4.0,"se":"Negative"},{"m":"2026-01","wd":2,"sl":1,"hr":13,"z":"South","s":"Regular","c":"Western","t":"Premium","o":"completed","n":53000,"g":53000,"r":0,"d":1,"l":0,"dl":-4.0,"rt":3.0,"se":"Neutral"},{"m":"2026-01","wd":5,"sl":3,"hr":19,"z":"West","s":"Regular","c":"Dessert","t":"Mid","o":"completed","n":215000,"g":215000,"r":0,"d":1,"l":0,"dl":-10.0,"rt":null,"se":null},{"m":"2026-03","wd":0,"sl":1,"hr":11,"z":"Central","s":"New","c":"Cafe & Beverage","t":"Mid","o":"completed","n":121000,"g":121000,"r":0,"d":1,"l":1,"dl":10.0,"rt":null,"se":null},{"m":"2026-02","wd":6,"sl":3,"hr":18,"z":"Central","s":"New","c":"Fast Food","t":"Premium","o":"completed","n":111000,"g":111000,"r":0,"d":1,"l":1,"dl":18.0,"rt":null,"se":null},{"m":"2026-02","wd":1,"sl":0,"hr":0,"z":"North","s":"New","c":"Western","t":"Mid","o":"completed","n":98000,"g":98000,"r":0,"d":1,"l":1,"dl":18.0,"rt":null,"se":null},{"m":"2026-03","wd":1,"sl":0,"hr":3,"z":"North","s":"New","c":"Asian","t":"Budget","o":"completed","n":106000,"g":106000,"r":0,"d":1,"l":0,"dl":-7.0,"rt":4.0,"se":"Positive"},{"m":"2026-01","wd":1,"sl":0,"hr":7,"z":"North","s":"Loyal","c":"Indonesian","t":"Mid","o":"completed","n":142000,"g":142000,"r":0,"d":1,"l":0,"dl":-13.0,"rt":null,"se":null},{"m":"2026-02","wd":5,"sl":2,"hr":15,"z":"West","s":"Loyal","c":"Fast Food","t":"Mid","o":"completed","n":157000,"g":157000,"r":0,"d":1,"l":1,"dl":9.0,"rt":1.0,"se":"Negative"},{"m":"2026-02","wd":5,"sl":0,"hr":6,"z":"South","s":"New","c":"Western","t":"Mid","o":"completed","n":84000,"g":84000,"r":0,"d":1,"l":0,"dl":-13.0,"rt":3.0,"se":"Neutral"},{"m":"2026-01","wd":1,"sl":0,"hr":9,"z":"Central","s":"New","c":"Asian","t":"Premium","o":"completed","n":88000,"g":88000,"r":0,"d":1,"l":0,"dl":-7.0,"rt":5.0,"se":"Positive"},{"m":"2026-01","wd":5,"sl":0,"hr":2,"z":"North","s":"New","c":"Indonesian","t":"Premium","o":"completed","n":123000,"g":123000,"r":0,"d":1,"l":1,"dl":5.0,"rt":null,"se":null},{"m":"2026-01","wd":5,"sl":0,"hr":5,"z":"West","s":"Loyal","c":"Dessert","t":"Mid","o":"completed","n":100000,"g":100000,"r":0,"d":1,"l":0,"dl":-9.0,"rt":4.0,"se":"Neutral"},{"m":"2026-01","wd":4,"sl":1,"hr":14,"z":"North","s":"New","c":"Western","t":"Mid","o":"completed","n":213000,"g":213000,"r":0,"d":1,"l":0,"dl":-14.0,"rt":5.0,"se":"Positive"},{"m":"2026-03","wd":2,"sl":0,"hr":5,"z":"East","s":"Regular","c":"Asian","t":"Mid","o":"completed","n":155000,"g":155000,"r":0,"d":1,"l":0,"dl":-1.0,"rt":5.0,"se":"Neutral"},{"m":"2026-03","wd":3,"sl":0,"hr":3,"z":"Central","s":"Regular","c":"Indonesian","t":"Budget","o":"completed","n":89000,"g":89000,"r":0,"d":1,"l":0,"dl":-13.0,"rt":5.0,"se":"Positive"},{"m":"2026-02","wd":0,"sl":0,"hr":3,"z":"South","s":"Loyal","c":"Dessert","t":"Premium","o":"completed","n":53000,"g":53000,"r":0,"d":1,"l":0,"dl":-2.0,"rt":5.0,"se":"No Text"},{"m":"2026-02","wd":4,"sl":3,"hr":21,"z":"Central","s":"Regular","c":"Cafe & Beverage","t":"Mid","o":"completed","n":181000,"g":181000,"r":0,"d":1,"l":0,"dl":-13.0,"rt":null,"se":null},{"m":"2026-01","wd":6,"sl":3,"hr":21,"z":"South","s":"Loyal","c":"Asian","t":"Budget","o":"completed","n":190000,"g":190000,"r":0,"d":1,"l":0,"dl":-13.0,"rt":4.0,"se":"Unknown"},{"m":"2026-03","wd":5,"sl":2,"hr":15,"z":"Central","s":"Regular","c":"Indonesian","t":"Budget","o":"completed","n":125000,"g":125000,"r":0,"d":1,"l":0,"dl":-13.0,"rt":null,"se":null},{"m":"2026-03","wd":6,"sl":2,"hr":15,"z":"Central","s":"Loyal","c":"Dessert","t":"Mid","o":"completed","n":120000,"g":120000,"r":0,"d":1,"l":0,"dl":-2.0,"rt":4.0,"se":"No Text"},{"m":"2026-01","wd":3,"sl":3,"hr":22,"z":"South","s":"Regular","c":"Cafe & Beverage","t":"Mid","o":"completed","n":112000,"g":112000,"r":0,"d":1,"l":0,"dl":-12.0,"rt":3.0,"se":"Neutral"},{"m":"2026-02","wd":0,"sl":1,"hr":11,"z":"North","s":"New","c":"Fast Food","t":"Mid","o":"completed","n":152000,"g":152000,"r":0,"d":1,"l":1,"dl":14.0,"rt":null,"se":null},{"m":"2026-03","wd":3,"sl":0,"hr":8,"z":"North","s":"Regular","c":"Indonesian","t":"Mid","o":"completed","n":122000,"g":122000,"r":0,"d":1,"l":1,"dl":23.0,"rt":null,"se":null},{"m":"2026-01","wd":6,"sl":0,"hr":7,"z":"South","s":"Regular","c":"Dessert","t":"Mid","o":"completed","n":156000,"g":156000,"r":0,"d":1,"l":1,"dl":8.0,"rt":1.0,"se":"Negative"},{"m":"2026-02","wd":5,"sl":1,"hr":13,"z":"North","s":"New","c":"Cafe & Beverage","t":"Mid","o":"completed","n":104000,"g":104000,"r":0,"d":1,"l":0,"dl":-10.0,"rt":null,"se":null},{"m":"2026-01","wd":2,"sl":0,"hr":5,"z":"South","s":"Regular","c":"Fast Food","t":"Budget","o":"completed","n":97000,"g":97000,"r":0,"d":1,"l":0,"dl":-4.0,"rt":4.0,"se":"Unknown"},{"m":"2026-01","wd":2,"sl":0,"hr":2,"z":"West","s":"Regular","c":"Western","t":"Premium","o":"completed","n":216000,"g":216000,"r":0,"d":1,"l":0,"dl":-7.0,"rt":null,"se":null},{"m":"2026-01","wd":6,"sl":3,"hr":22,"z":"Central","s":"New","c":"Dessert","t":"Mid","o":"completed","n":116000,"g":116000,"r":0,"d":1,"l":0,"dl":-10.0,"rt":4.0,"se":"Positive"},{"m":"2026-02","wd":3,"sl":1,"hr":11,"z":"Central","s":"New","c":"Cafe & Beverage","t":"Mid","o":"completed","n":117000,"g":117000,"r":0,"d":1,"l":0,"dl":-2.0,"rt":null,"se":null},{"m":"2026-01","wd":0,"sl":3,"hr":18,"z":"North","s":"New","c":"Fast Food","t":"Premium","o":"completed","n":94000,"g":94000,"r":0,"d":1,"l":0,"dl":0.0,"rt":5.0,"se":"Negative"},{"m":"2026-03","wd":6,"sl":0,"hr":3,"z":"North","s":"New","c":"Western","t":"Mid","o":"completed","n":163000,"g":163000,"r":0,"d":1,"l":1,"dl":24.0,"rt":3.0,"se":"Negative"},{"m":"2026-03","wd":6,"sl":0,"hr":6,"z":"North","s":"Loyal","c":"Asian","t":"Budget","o":"completed","n":103000,"g":103000,"r":0,"d":1,"l":1,"dl":10.0,"rt":4.0,"se":"Negative"},{"m":"2026-01","wd":0,"sl":0,"hr":1,"z":"West","s":"Loyal","c":"Indonesian","t":"Mid","o":"completed","n":204000,"g":204000,"r":0,"d":1,"l":0,"dl":-1.0,"rt":null,"se":null},{"m":"2026-03","wd":4,"sl":1,"hr":14,"z":"South","s":"New","c":"Fast Food","t":"Mid","o":"completed","n":171000,"g":171000,"r":0,"d":1,"l":0,"dl":-9.0,"rt":5.0,"se":"Positive"},{"m":"2026-01","wd":2,"sl":3,"hr":19,"z":"Central","s":"New","c":"Western","t":"Mid","o":"completed","n":119000,"g":119000,"r":0,"d":1,"l":0,"dl":-3.0,"rt":4.0,"se":"Neutral"},{"m":"2026-02","wd":2,"sl":0,"hr":4,"z":"North","s":"New","c":"Asian","t":"Premium","o":"completed","n":199000,"g":199000,"r":0,"d":1,"l":0,"dl":-7.0,"rt":5.0,"se":"Positive"},{"m":"2026-02","wd":1,"sl":0,"hr":5,"z":"West","s":"Loyal","c":"Indonesian","t":"Premium","o":"completed","n":340000,"g":340000,"r":0,"d":1,"l":1,"dl":15.0,"rt":null,"se":null},{"m":"2026-03","wd":0,"sl":2,"hr":16,"z":"North","s":"New","c":"Dessert","t":"Mid","o":"completed","n":121000,"g":121000,"r":0,"d":1,"l":1,"dl":11.0,"rt":2.0,"se":"Negative"},{"m":"2026-03","wd":2,"sl":3,"hr":19,"z":"East","s":"Regular","c":"Western","t":"Mid","o":"completed","n":158000,"g":158000,"r":0,"d":1,"l":0,"dl":-1.0,"rt":5.0,"se":"Neutral"},{"m":"2026-03","wd":0,"sl":1,"hr":11,"z":"Central","s":"Regular","c":"Asian","t":"Mid","o":"completed","n":145000,"g":145000,"r":0,"d":1,"l":1,"dl":15.0,"rt":null,"se":null},{"m":"2026-01","wd":0,"sl":3,"hr":20,"z":"South","s":"Loyal","c":"Indonesian","t":"Budget","o":"cancelled","n":0,"g":0,"r":0,"d":0,"l":null,"dl":null,"rt":null,"se":null},{"m":"2026-01","wd":4,"sl":2,"hr":16,"z":"Central","s":"Regular","c":"Dessert","t":"Premium","o":"cancelled","n":0,"g":0,"r":0,"d":0,"l":null,"dl":null,"rt":null,"se":null},{"m":"2026-03","wd":1,"sl":2,"hr":16,"z":"South","s":"Loyal","c":"Cafe & Beverage","t":"Mid","o":"cancelled","n":0,"g":0,"r":0,"d":0,"l":null,"dl":null,"rt":null,"se":null},{"m":"2026-01","wd":0,"sl":0,"hr":7,"z":"Central","s":"Regular","c":"Asian","t":"Budget","o":"cancelled","n":0,"g":0,"r":0,"d":0,"l":null,"dl":null,"rt":null,"se":null},{"m":"2026-02","wd":5,"sl":0,"hr":2,"z":"Central","s":"Loyal","c":"Indonesian","t":"Budget","o":"cancelled","n":0,"g":0,"r":0,"d":0,"l":null,"dl":null,"rt":null,"se":null},{"m":"2026-01","wd":6,"sl":2,"hr":15,"z":"South","s":"Regular","c":"Dessert","t":"Mid","o":"cancelled","n":0,"g":0,"r":0,"d":0,"l":null,"dl":null,"rt":null,"se":null},{"m":"2026-03","wd":0,"sl":0,"hr":6,"z":"North","s":"New","c":"Cafe & Beverage","t":"Mid","o":"cancelled","n":0,"g":0,"r":0,"d":0,"l":null,"dl":null,"rt":null,"se":null},{"m":"2026-03","wd":3,"sl":0,"hr":10,"z":"North","s":"Regular","c":"Fast Food","t":"Mid","o":"cancelled","n":0,"g":0,"r":0,"d":0,"l":null,"dl":null,"rt":null,"se":null},{"m":"2026-02","wd":2,"sl":1,"hr":14,"z":"South","s":"Regular","c":"Indonesian","t":"Mid","o":"cancelled","n":0,"g":0,"r":0,"d":0,"l":null,"dl":null,"rt":null,"se":null},{"m":"2026-01","wd":0,"sl":2,"hr":16,"z":"North","s":"New","c":"Dessert","t":"Mid","o":"cancelled","n":0,"g":0,"r":0,"d":0,"l":null,"dl":null,"rt":null,"se":null},{"m":"2026-03","wd":1,"sl":1,"hr":14,"z":"South","s":"Regular","c":"Cafe & Beverage","t":"Mid","o":"cancelled","n":0,"g":0,"r":0,"d":0,"l":null,"dl":null,"rt":null,"se":null},{"m":"2026-03","wd":5,"sl":0,"hr":6,"z":"West","s":"Regular","c":"Fast Food","t":"Budget","o":"cancelled","n":0,"g":0,"r":0,"d":0,"l":null,"dl":null,"rt":null,"se":null},{"m":"2026-02","wd":2,"sl":0,"hr":4,"z":"Central","s":"New","c":"Western","t":"Premium","o":"cancelled","n":0,"g":0,"r":0,"d":0,"l":null,"dl":null,"rt":null,"se":null},{"m":"2026-02","wd":0,"sl":3,"hr":20,"z":"Central","s":"New","c":"Dessert","t":"Mid","o":"cancelled","n":0,"g":0,"r":0,"d":0,"l":null,"dl":null,"rt":null,"se":null},{"m":"2026-02","wd":1,"sl":2,"hr":17,"z":"North","s":"New","c":"Cafe & Beverage","t":"Mid","o":"cancelled","n":0,"g":0,"r":0,"d":0,"l":null,"dl":null,"rt":null,"se":null},{"m":"2026-03","wd":4,"sl":0,"hr":4,"z":"North","s":"New","c":"Fast Food","t":"Premium","o":"cancelled","n":0,"g":0,"r":0,"d":0,"l":null,"dl":null,"rt":null,"se":null},{"m":"2026-01","wd":5,"sl":0,"hr":4,"z":"North","s":"Loyal","c":"Western","t":"Mid","o":"cancelled","n":0,"g":0,"r":0,"d":0,"l":null,"dl":null,"rt":null,"se":null},{"m":"2026-02","wd":4,"sl":1,"hr":13,"z":"West","s":"Loyal","c":"Asian","t":"Budget","o":"cancelled","n":0,"g":0,"r":0,"d":0,"l":null,"dl":null,"rt":null,"se":null},{"m":"2026-01","wd":2,"sl":0,"hr":10,"z":"South","s":"New","c":"Indonesian","t":"Mid","o":"cancelled","n":0,"g":0,"r":0,"d":0,"l":null,"dl":null,"rt":null,"se":null},{"m":"2026-02","wd":3,"sl":3,"hr":21,"z":"Central","s":"New","c":"Fast Food","t":"Mid","o":"cancelled","n":0,"g":0,"r":0,"d":0,"l":null,"dl":null,"rt":null,"se":null},{"m":"2026-03","wd":1,"sl":0,"hr":6,"z":"North","s":"New","c":"Western","t":"Mid","o":"cancelled","n":0,"g":0,"r":0,"d":0,"l":null,"dl":null,"rt":null,"se":null},{"m":"2026-03","wd":5,"sl":3,"hr":20,"z":"West","s":"Loyal","c":"Asian","t":"Premium","o":"cancelled","n":0,"g":0,"r":0,"d":0,"l":null,"dl":null,"rt":null,"se":null},{"m":"2026-03","wd":6,"sl":3,"hr":22,"z":"North","s":"New","c":"Indonesian","t":"Premium","o":"cancelled","n":0,"g":0,"r":0,"d":0,"l":null,"dl":null,"rt":null,"se":null},{"m":"2026-03","wd":4,"sl":0,"hr":3,"z":"East","s":"Regular","c":"Dessert","t":"Mid","o":"cancelled","n":0,"g":0,"r":0,"d":0,"l":null,"dl":null,"rt":null,"se":null},{"m":"2026-01","wd":6,"sl":3,"hr":23,"z":"Central","s":"Regular","c":"Western","t":"Mid","o":"cancelled","n":0,"g":0,"r":0,"d":0,"l":null,"dl":null,"rt":null,"se":null},{"m":"2026-01","wd":4,"sl":1,"hr":14,"z":"South","s":"Loyal","c":"Asian","t":"Mid","o":"cancelled","n":0,"g":0,"r":0,"d":0,"l":null,"dl":null,"rt":null,"se":null},{"m":"2026-01","wd":6,"sl":0,"hr":10,"z":"Central","s":"Regular","c":"Indonesian","t":"Budget","o":"cancelled","n":0,"g":0,"r":0,"d":0,"l":null,"dl":null,"rt":null,"se":null},{"m":"2026-02","wd":2,"sl":0,"hr":10,"z":"South","s":"Loyal","c":"Dessert","t":"Premium","o":"cancelled","n":0,"g":0,"r":0,"d":0,"l":null,"dl":null,"rt":null,"se":null},{"m":"2026-02","wd":6,"sl":2,"hr":16,"z":"Central","s":"Regular","c":"Cafe & Beverage","t":"Mid","o":"cancelled","n":0,"g":81000,"r":81000,"d":0,"l":null,"dl":null,"rt":null,"se":null},{"m":"2026-03","wd":2,"sl":3,"hr":21,"z":"Central","s":"Loyal","c":"Asian","t":"Budget","o":"cancelled","n":0,"g":171000,"r":171000,"d":0,"l":null,"dl":null,"rt":null,"se":null},{"m":"2026-01","wd":4,"sl":1,"hr":13,"z":"South","s":"Regular","c":"Indonesian","t":"Budget","o":"cancelled","n":0,"g":129000,"r":129000,"d":0,"l":null,"dl":null,"rt":null,"se":null},{"m":"2026-02","wd":5,"sl":0,"hr":3,"z":"North","s":"New","c":"Dessert","t":"Mid","o":"cancelled","n":0,"g":68000,"r":68000,"d":0,"l":null,"dl":null,"rt":null,"se":null},{"m":"2026-02","wd":1,"sl":1,"hr":13,"z":"North","s":"Regular","c":"Cafe & Beverage","t":"Mid","o":"cancelled","n":0,"g":114000,"r":114000,"d":0,"l":null,"dl":null,"rt":null,"se":null},{"m":"2026-01","wd":5,"sl":3,"hr":23,"z":"South","s":"Regular","c":"Fast Food","t":"Mid","o":"cancelled","n":0,"g":143000,"r":143000,"d":0,"l":null,"dl":null,"rt":null,"se":null},{"m":"2026-01","wd":6,"sl":0,"hr":1,"z":"North","s":"New","c":"Indonesian","t":"Mid","o":"cancelled","n":0,"g":62000,"r":62000,"d":0,"l":null,"dl":null,"rt":null,"se":null},{"m":"2026-01","wd":6,"sl":0,"hr":6,"z":"South","s":"Regular","c":"Dessert","t":"Mid","o":"cancelled","n":0,"g":141000,"r":141000,"d":0,"l":null,"dl":null,"rt":null,"se":null},{"m":"2026-01","wd":6,"sl":0,"hr":9,"z":"West","s":"Regular","c":"Cafe & Beverage","t":"Mid","o":"cancelled","n":0,"g":72000,"r":72000,"d":0,"l":null,"dl":null,"rt":null,"se":null},{"m":"2026-03","wd":0,"sl":3,"hr":21,"z":"Central","s":"New","c":"Fast Food","t":"Budget","o":"cancelled","n":0,"g":42000,"r":42000,"d":0,"l":null,"dl":null,"rt":null,"se":null},{"m":"2026-03","wd":1,"sl":2,"hr":15,"z":"Central","s":"New","c":"Western","t":"Premium","o":"cancelled","n":0,"g":224000,"r":224000,"d":0,"l":null,"dl":null,"rt":null,"se":null},{"m":"2026-01","wd":2,"sl":0,"hr":10,"z":"North","s":"New","c":"Dessert","t":"Mid","o":"cancelled","n":0,"g":133000,"r":133000,"d":0,"l":null,"dl":null,"rt":null,"se":null},{"m":"2026-03","wd":5,"sl":2,"hr":15,"z":"North","s":"New","c":"Cafe & Beverage","t":"Mid","o":"cancelled","n":0,"g":216000,"r":216000,"d":0,"l":null,"dl":null,"rt":null,"se":null},{"m":"2026-01","wd":5,"sl":1,"hr":11,"z":"North","s":"Loyal","c":"Fast Food","t":"Premium","o":"cancelled","n":0,"g":254000,"r":254000,"d":0,"l":null,"dl":null,"rt":null,"se":null}];
+const MON=['2026-01','2026-02','2026-03'],MN={'2026-01':'Jan','2026-02':'Feb','2026-03':'Mar'},SENT=['Positive','Neutral','Negative','Unknown','No Text'],SC={Positive:'#10b981',Neutral:'#38bdf8',Negative:'#f43f5e',Unknown:'#f59e0b','No Text':'#94a3b8'};
+const WKD_LBL=['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'],SLOT_LBL=['Pagi (<11:00)','Siang (11–14)','Sore (15–17)','Malam (18–23)'];
+const S={m:'',z:'',s:'',c:'',o:''},C={};let tab='ring',wkdMode='chart',cuisMode='net',sDim='c';
+const $=q=>document.querySelector(q),sum=(a,f)=>a.reduce((x,r)=>x+f(r),0),pc=(a,b)=>b?a/b*100:null;
+const fp=v=>v==null?'N/A (0 valid)':v.toFixed(2).replace('.',',')+'%',fp1=v=>v==null?'N/A':v.toFixed(1).replace('.',',')+'%',fr=v=>'Rp'+Math.round(v).toLocaleString('id-ID'),fj=v=>'Rp'+(v/1e6).toFixed(2).replace('.',',')+' Jt',f1=v=>v.toFixed(1).replace('.',',');
+const fil=()=>D.filter(r=>(!S.m||r.m==S.m)&&(!S.z||r.z==S.z)&&(!S.s||r.s==S.s)&&(!S.c||r.c==S.c)&&(!S.o||r.o==S.o));
+function K(a){const dl=a.filter(r=>r.d),lt=dl.filter(r=>r.l),rv=a.filter(r=>r.se),ng=rv.filter(r=>r.se=='Negative');return{n:a.length,net:sum(a,r=>r.n),g:sum(a,r=>r.g),rf:sum(a,r=>r.r),dl:dl.length,lt:lt.length,rv:rv.length,ng:ng.length,cov:pc(rv.length,a.length),late:pc(lt.length,dl.length),neg:pc(ng.length,rv.length)}}
+const ins=(id,h)=>$('#i-'+id).innerHTML=h;
+
+const SmartLabelsPlugin = {
+  id: 'smartLabels',
+  afterDatasetsDraw(chart, args, opts) {
+    if (!opts) return;
+    const { ctx, chartArea } = chart;
+    const cs = getComputedStyle(document.documentElement);
+    const txColor = cs.getPropertyValue('--tx').trim() || '#1e1b4b';
+    const muColor = cs.getPropertyValue('--mu').trim() || '#64608a';
+    ctx.save();
+    ctx.font = 'bold 11px system-ui, -apple-system, "Segoe UI", Arial, sans-serif';
+
+    // 1. Horizontal dashed reference lines
+    if (opts.hLines && opts.hLines.length) {
+      const yScale = chart.scales.y;
+      if (yScale) {
+        opts.hLines.forEach(hl => {
+          if (hl.value == null || isNaN(hl.value)) return;
+          const yPos = yScale.getPixelForValue(hl.value);
+          if (yPos < chartArea.top || yPos > chartArea.bottom) return;
+          ctx.save();
+          ctx.beginPath();
+          ctx.setLineDash(hl.dash || [6, 4]);
+          ctx.lineWidth = 2;
+          ctx.strokeStyle = hl.color;
+          ctx.moveTo(chartArea.left, yPos);
+          ctx.lineTo(chartArea.right, yPos);
+          ctx.stroke();
+          ctx.restore();
+        });
+      }
+    }
+
+    // 2. Modes
+    if (opts.mode === 'monthlySalesClean') {
+      const metaBar = chart.getDatasetMeta(0);
+      const revs = chart.data.datasets[0].data || [];
+      const ords = opts.orders || [];
+      const pcts = opts.pcts || [];
+      if (!metaBar.hidden) {
+        metaBar.data.forEach((bar, i) => {
+          const rv = revs[i];
+          if (rv == null || rv <= 0) return;
+          const vPct = pcts[i];
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'bottom';
+
+          // Line 1: MoM badge at top (only for Feb & Mar)
+          if (i > 0 && vPct != null && !isNaN(vPct)) {
+            const momTxt = (vPct >= 0 ? '▲ +' : '▼ ') + vPct.toFixed(1).replace('.', ',') + '% MoM';
+            const momCol = vPct >= 0 ? '#0d9488' : '#e11d48';
+            ctx.font = 'bold 11px system-ui, -apple-system, sans-serif';
+            ctx.fillStyle = momCol;
+            ctx.fillText(momTxt, bar.x, bar.y - 31);
+          }
+
+          // Line 2: Net Payment
+          ctx.font = 'bold 11.5px system-ui, -apple-system, sans-serif';
+          ctx.fillStyle = txColor;
+          ctx.fillText(fj(rv), bar.x, bar.y - 17);
+
+          // Line 3: Order count
+          ctx.font = '600 10.5px system-ui, -apple-system, sans-serif';
+          ctx.fillStyle = muColor;
+          ctx.fillText(`${ords[i] || 0} order`, bar.x, bar.y - 4);
+        });
+      }
+    } else if (opts.mode === 'horizZone') {
+      const totalNet = opts.totalNet || 0;
+      chart.data.datasets.forEach((ds, dsIdx) => {
+        const meta = chart.getDatasetMeta(dsIdx);
+        if (meta.hidden) return;
+        meta.data.forEach((bar, i) => {
+          const val = ds.data[i];
+          if (!val || val <= 0) return;
+          let txt = (val / 1e6).toFixed(2).replace('.', ',') + ' Jt';
+          if (dsIdx === 0 && totalNet > 0) {
+            txt += ' (' + (val / totalNet * 100).toFixed(1).replace('.', ',') + '%)';
+          }
+          ctx.fillStyle = txColor;
+          ctx.textAlign = 'left';
+          ctx.textBaseline = 'middle';
+          ctx.fillText(txt, bar.x + 6, bar.y);
+        });
+      });
+    } else if (opts.mode === 'horizCuisine') {
+      const items = opts.items || [];
+      const totNet = opts.totalNet || 0;
+      const totOrd = opts.totalOrd || 0;
+      const cMode = opts.cuisMode || 'net';
+      const meta = chart.getDatasetMeta(0);
+      if (!meta.hidden) {
+        meta.data.forEach((bar, i) => {
+          const it = items[i];
+          if (!it) return;
+          let txt = '';
+          if (cMode === 'net') {
+            const pct = totNet > 0 ? (it.n / totNet * 100).toFixed(1).replace('.', ',') + '%' : '';
+            txt = `${fj(it.n)} (${pct} • ${it.cnt} ord)`;
+          } else {
+            const pct = totOrd > 0 ? (it.cnt / totOrd * 100).toFixed(1).replace('.', ',') + '%' : '';
+            txt = `${it.cnt} order (${pct} • ${fj(it.n)})`;
+          }
+          ctx.fillStyle = txColor;
+          ctx.textAlign = 'left';
+          ctx.textBaseline = 'middle';
+          ctx.fillText(txt, bar.x + 6, bar.y);
+        });
+      }
+    } else if (opts.mode === 'weekdayBadge') {
+      const meta = chart.getDatasetMeta(0);
+      const vals = chart.data.datasets[0].data || [];
+      const ords = opts.orders || [];
+      if (!meta.hidden) {
+        meta.data.forEach((bar, i) => {
+          const v = vals[i];
+          if (!v || v <= 0) return;
+          const barH = Math.abs(bar.base - bar.y);
+          const rpTxt = 'Rp' + (v / 1e6).toFixed(2).replace('.', ',') + ' Jt';
+          if (ords[i] != null) {
+            ctx.font = '600 10.5px system-ui, -apple-system, sans-serif';
+            ctx.fillStyle = muColor;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'bottom';
+            ctx.fillText(`${ords[i]} order`, bar.x, bar.y - 4);
+          }
+          ctx.font = 'bold 10.5px system-ui, -apple-system, sans-serif';
+          const tw = ctx.measureText(rpTxt).width;
+          const pw = Math.max(tw + 12, 46);
+          const ph = 20;
+          const px = bar.x - pw / 2;
+          const py = barH >= 34 ? (bar.y + 8) : Math.max(chartArea.top + 2, bar.y - ph - 18);
+          ctx.fillStyle = '#1e293b';
+          ctx.beginPath();
+          if (ctx.roundRect) ctx.roundRect(px, py, pw, ph, 5);
+          else ctx.rect(px, py, pw, ph);
+          ctx.fill();
+          ctx.fillStyle = '#ffffff';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText(rpTxt, bar.x, py + ph / 2);
+        });
+      }
+    } else if (opts.mode === 'groupedCountPct') {
+      const totals = opts.totals || [];
+      chart.data.datasets.forEach((ds, dsIdx) => {
+        const meta = chart.getDatasetMeta(dsIdx);
+        if (meta.hidden) return;
+        meta.data.forEach((bar, i) => {
+          const val = ds.data[i];
+          if (!val || val <= 0) return;
+          const tot = totals[i] || 0;
+          const pct = tot > 0 ? (val / tot * 100).toFixed(1).replace('.', ',') + '%' : '';
+          ctx.font = 'bold 10.5px system-ui, -apple-system, sans-serif';
+          ctx.fillStyle = txColor;
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'bottom';
+          ctx.fillText(`${val} (${pct})`, bar.x, bar.y - 4);
+        });
+      });
+    } else if (opts.mode === 'vertLate') {
+      const meta = chart.getDatasetMeta(0);
+      const items = opts.items || [];
+      const cdColor = cs.getPropertyValue('--cd').trim() || '#ffffff';
+      meta.data.forEach((bar, i) => {
+        const it = items[i];
+        if (!it || it.p == null) return;
+        const txt = it.p.toFixed(1).replace('.', ',') + '% (' + it.l + '/' + it.n + ')';
+        ctx.font = 'bold 11px system-ui, -apple-system, "Segoe UI", Arial, sans-serif';
+        const tw = ctx.measureText(txt).width;
+        const ty = bar.y - 6;
+        ctx.fillStyle = cdColor;
+        ctx.fillRect(bar.x - tw / 2 - 3, ty - 12, tw + 6, 14);
+        ctx.fillStyle = txColor;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'bottom';
+        ctx.fillText(txt, bar.x, ty);
+      });
+    } else if (opts.mode === 'peakDual') {
+      const items = opts.items || [];
+      const metaBar = chart.getDatasetMeta(0);
+      if (!metaBar.hidden) {
+        metaBar.data.forEach((bar, i) => {
+          const it = items[i];
+          if (!it || !it.tot) return;
+          ctx.font = 'bold 11px system-ui, -apple-system, sans-serif';
+          ctx.fillStyle = txColor;
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'bottom';
+          ctx.fillText(`${it.tot} order`, bar.x, bar.y - 16);
+          if (it.latePct != null) {
+            ctx.font = '600 10px system-ui, -apple-system, sans-serif';
+            ctx.fillStyle = it.latePct > (opts.avgLate || 31.41) ? '#e11d48' : '#0d9488';
+            ctx.fillText(`(Late: ${it.latePct.toFixed(1).replace('.', ',')}%)`, bar.x, bar.y - 4);
+          }
+        });
+      }
+    } else if (opts.mode === 'vertCountPct') {
+      const meta = chart.getDatasetMeta(0);
+      const tot = opts.total || 0;
+      const data = chart.data.datasets[0].data;
+      meta.data.forEach((bar, i) => {
+        const val = data[i];
+        if (!val) return;
+        const pct = tot > 0 ? Math.round(val / tot * 100) + '%' : '';
+        const txt = pct ? `${val} (${pct})` : `${val}`;
+        ctx.fillStyle = txColor;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'bottom';
+        ctx.fillText(txt, bar.x, bar.y - 4);
+      });
+    } else if (opts.mode === 'doughnutPct') {
+      const meta = chart.getDatasetMeta(0);
+      const tot = opts.total || 0;
+      const data = chart.data.datasets[0].data;
+      meta.data.forEach((arc, i) => {
+        const val = data[i];
+        if (!val || !tot) return;
+        const pct = val / tot * 100;
+        if (pct < 5.5) return;
+        const pos = arc.tooltipPosition();
+        ctx.fillStyle = (i === 1 || i === 3 || i === 4) ? '#0f172a' : '#ffffff';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(pct.toFixed(1).replace('.', ',') + '%', pos.x, pos.y);
+      });
+      if (tot > 0) {
+        const cx = (chartArea.left + chartArea.right) / 2;
+        const cy = (chartArea.top + chartArea.bottom) / 2;
+        ctx.fillStyle = txColor;
+        ctx.font = '800 18px system-ui, -apple-system, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(tot, cx, cy - 7);
+        ctx.font = '600 11px system-ui, -apple-system, sans-serif';
+        ctx.fillStyle = muColor;
+        ctx.fillText('Review', cx, cy + 11);
+      }
+    } else if (opts.mode === 'stacked100') {
+      chart.data.datasets.forEach((ds, dsIdx) => {
+        const meta = chart.getDatasetMeta(dsIdx);
+        if (meta.hidden) return;
+        meta.data.forEach((bar, i) => {
+          const val = ds.data[i];
+          if (!val || val < 7.5) return;
+          const w = Math.abs(bar.x - bar.base);
+          if (w < 30) return;
+          const cx = (bar.base + bar.x) / 2;
+          ctx.fillStyle = (dsIdx === 1 || dsIdx === 3 || dsIdx === 4) ? '#0f172a' : '#ffffff';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText(val.toFixed(1).replace('.', ',') + '%', cx, bar.y);
+        });
+      });
+    }
+    ctx.restore();
+  }
+};
+Chart.register(SmartLabelsPlugin);
+
+function mk(id,cfg){C[id]&&C[id].destroy();cfg.options=Object.assign({responsive:true,maintainAspectRatio:false},cfg.options);C[id]=new Chart($('#'+id),cfg)}
+const card=(id,t,w='',x='',extraHtml='')=>`<article class="card"><div style="display:flex;justify-content:space-between;gap:8px;align-items:center;margin-bottom:8px"><h3>${t}</h3>${x}</div>${w?`<p class="why">${w}</p>`:''}<div class="cv" id="cv-${id}"><canvas id="${id}"></canvas></div>${extraHtml}<p class="ins" id="i-${id}"></p></article>`;
+
+// TAB 1: RINGKASAN EKSEKUTIF (4 Grafik)
+$('#g-ring').innerHTML=
+  card('cMom','Monthly Sales Performance (Jan–Mar 2026)')+
+  card('cZone','Regional Performance (Net Payment vs Refund per Zona)')+
+  card('cCuis','Revenue Breakdown by Cuisine Type','','<select id="cm"><option value="net">Urutkan: Net Payment (Rp)</option><option value="ord">Urutkan: Jumlah Order</option></select>')+
+  card('cWkd','Net Payment by Weekdays + Heat Map','','<div class="tgrp"><button class="tbtn on" data-wm="chart">Chart</button><button class="tbtn" data-wm="hm">Heat Map</button></div>','<div class="hm-wrap" id="hm-cWkd"></div>');
+
+// TAB 2: OPERASIONAL & PENGIRIMAN (4 Grafik)
+$('#g-ops').innerHTML=
+  card('cDeliv','Status Order: Delivered vs Cancelled per Bulan')+
+  card('cLateMon','Late Delivery Rate per Bulan (Jan–Mar 2026)')+
+  card('cLateZone','Late Delivery Rate per Zona Pelanggan')+
+  card('cPeakOps','Analisis Jam Sibuk Operasional');
+
+// TAB 3: PELANGGAN & SENTIMEN (4 Grafik)
+$('#g-cx').innerHTML=
+  card('cLS','Perbandingan Sentimen: On-time vs Late')+
+  card('cSent','Customer Sentiment Distribution')+
+  card('cRate','Distribusi Rating Bintang (★1 – ★5)')+
+  card('cSentDim','Sentimen Berdasarkan Kategori Restoran / Zona','','<select id="sdm"><option value="c">Kategori Restoran</option><option value="z">Zona Pelanggan</option></select>');
+
+const u=k=>[...new Set(D.map(r=>r[k]))].sort();
+const OP={'':'Semua status',completed:'Delivered',cancelled:'Cancelled'};
+$('#fb').innerHTML=[['m','Bulan',u('m').map(x=>[x,MN[x]+' 2026'])],['z','Zona pelanggan',u('z').map(x=>[x,x])],['s','Segmen',u('s').map(x=>[x,x])],['c','Kategori restoran',u('c').map(x=>[x,x])],['o','Status order',['completed','cancelled'].map(x=>[x,OP[x]])]].map(([k,l,o])=>`<label>${l}<select data-k="${k}"><option value="">Semua</option>${o.map(x=>`<option value="${x[0]}">${x[1]}</option>`).join('')}</select></label>`).join('')+'<button id="rs">Reset filter</button><span id="cnt"></span>';
+document.querySelectorAll('[data-k]').forEach(e=>e.onchange=()=>{S[e.dataset.k]=e.value;render()});
+$('#rs').onclick=()=>{Object.keys(S).forEach(k=>S[k]='');document.querySelectorAll('[data-k]').forEach(e=>e.value='');render()};
+$('#cm').onchange=e=>{cuisMode=e.target.value;render()};
+$('#sdm').onchange=e=>{sDim=e.target.value;render()};
+document.querySelectorAll('[data-wm]').forEach(b=>b.onclick=()=>{
+  wkdMode=b.dataset.wm;
+  document.querySelectorAll('[data-wm]').forEach(x=>x.classList.toggle('on',x.dataset.wm==wkdMode));
+  $('#cv-cWkd').style.display=wkdMode=='chart'?'block':'none';
+  $('#hm-cWkd').style.display=wkdMode=='hm'?'flex':'none';
+  render();
+});
+
+const TB=[['ring','Performa Bisnis & Penjualan'],['ops','Operasional & Pengiriman'],['cx','Pelanggan & Sentimen']];
+$('#nav').innerHTML=TB.map(t=>`<button data-t="${t[0]}">${t[1]}</button>`).join('');
+function go(t){tab=t;TB.forEach(x=>{$('#s-'+x[0]).classList.toggle('on',x[0]==t)});document.querySelectorAll('[data-t]').forEach(b=>b.classList.toggle('on',b.dataset.t==t));Object.values(C).forEach(c=>c.resize());const a=fil(),k=K(a),B=K(D);exec(a,k,B)}
+document.querySelectorAll('[data-t]').forEach(b=>b.onclick=()=>go(b.dataset.t));
+addEventListener('keydown',e=>{const i=TB.findIndex(x=>x[0]==tab);if(e.key=='ArrowRight')go(TB[Math.min(i+1,2)][0]);if(e.key=='ArrowLeft')go(TB[Math.max(i-1,0)][0])});
+$('#th').onclick=()=>{const r=document.documentElement,d=r.dataset.theme?r.dataset.theme=='dark':matchMedia('(prefers-color-scheme:dark)').matches;r.dataset.theme=d?'light':'dark';render()};
+matchMedia('(prefers-color-scheme:dark)').addEventListener('change',()=>render());
+
+function kpis(k,B){const f=k.n!=D.length,it=[['Total Orders',k.n,`${k.dl} delivered • ${k.n-k.dl} cancelled`],['Net Payment',fj(k.net),`AOV ${k.n?fr(k.net/k.n):'N/A'} • refund ${fj(k.rf)}`],['Review Coverage',fp(k.cov),`${k.rv}/${k.n} order`,k.cov,B.cov,1],['Late Delivery Rate',fp(k.late),`${k.lt}/${k.dl} delivered`,k.late,B.late,-1],['Negative Sentiment',fp(k.neg),`${k.ng}/${k.rv} review`,k.neg,B.neg,-1]];
+$('#kpi').innerHTML=it.map((i,ix)=>{let d='';if(f&&i[3]!=null){const x=i[3]-i[4];d=` <span class="${x*i[5]>=0?'ok':'bad'}">${x>=0?'▲':'▼'} ${f1(Math.abs(x))} pp vs semua</span>`}return`<div class="card" style="--k:${['#6366f1','#0ea5e9','#a855f7','#f59e0b','#f43f5e'][ix]}"><div class="l">${['🧾','💰','⭐','⏱️','💬'][ix]} ${i[0]}</div><div class="v">${i[1]}</div><div class="s">${i[2]}${d}</div></div>`}).join('')}
+
+// 1. Monthly Sales Performance (Net Payment + Jumlah Order + MoM % Growth)
+function momSales(a){
+  const isDark = document.documentElement.dataset.theme === 'dark' || (!document.documentElement.dataset.theme && matchMedia('(prefers-color-scheme:dark)').matches);
+  const lineCol = isDark ? '#38bdf8' : '#1e293b';
+  const trendData = S.m ? D.filter(r=>(!S.z||r.z==S.z)&&(!S.s||r.s==S.s)&&(!S.c||r.c==S.c)&&(!S.o||r.o==S.o)) : a;
+  const labels = MON.map(m => `${MN[m]} 2026`);
+  const revs = MON.map(m => sum(trendData.filter(r => r.m === m), r => r.n));
+  const ords = MON.map(m => trendData.filter(r => r.m === m).length);
+  const pcts = revs.map((v, i) => (i === 0 || revs[i - 1] <= 0) ? 0 : ((v - revs[i - 1]) / revs[i - 1] * 100));
+  const ordPcts = ords.map((v, i) => (i === 0 || ords[i - 1] <= 0) ? 0 : ((v - ords[i - 1]) / ords[i - 1] * 100));
+  const maxRev = Math.max(...revs, 1e6);
+
+  mk('cMom', {
+    data: {
+      labels,
+      datasets: [
+        {
+          type: 'bar',
+          label: 'Net Payment',
+          data: revs,
+          backgroundColor: revs.map((_, i) => i === 0 ? '#6366f1' : (pcts[i] >= 0 ? '#10b981' : '#f43f5e')),
+          maxBarThickness: 58,
+          borderRadius: 6,
+          order: 2
+        },
+        {
+          type: 'line',
+          label: 'Tren Bulanan',
+          data: revs,
+          borderColor: lineCol,
+          backgroundColor: 'transparent',
+          borderWidth: 2.5,
+          tension: 0.3,
+          pointRadius: 5,
+          pointHoverRadius: 7,
+          pointBackgroundColor: lineCol,
+          pointBorderColor: '#ffffff',
+          pointBorderWidth: 2,
+          order: 1
+        }
+      ]
+    },
+    options: {
+      layout: { padding: { top: 44, bottom: 4 } },
+      plugins: {
+        legend: {
+          display: true,
+          position: 'top',
+          labels: {
+            boxWidth: 11,
+            padding: 12,
+            font: { size: 11 },
+            generateLabels: () => [
+              { text: 'Bulan Awal (Jan)', fillStyle: '#6366f1', strokeStyle: '#6366f1', lineWidth: 0 },
+              { text: 'MoM Naik (+%)', fillStyle: '#10b981', strokeStyle: '#10b981', lineWidth: 0 },
+              { text: 'MoM Turun (-%)', fillStyle: '#f43f5e', strokeStyle: '#f43f5e', lineWidth: 0 },
+              { text: 'Garis Tren', fillStyle: 'transparent', strokeStyle: lineCol, lineWidth: 2.5 }
+            ]
+          }
+        },
+        smartLabels: { mode: 'monthlySalesClean', orders: ords, pcts },
+        tooltip: {
+          callbacks: {
+            label: ctx => {
+              const i = ctx.dataIndex;
+              if (ctx.datasetIndex === 1) {
+                if (i === 0) return 'Bulan Awal (Januari 2026)';
+                return `Pertumbuhan MoM: ${pcts[i] >= 0 ? '+' : ''}${f1(pcts[i])}% Net Payment (${ordPcts[i] >= 0 ? '+' : ''}${f1(ordPcts[i])}% order)`;
+              }
+              return `Net Payment: ${fr(revs[i])} (${ords[i]} order • AOV ${ords[i] ? fr(revs[i]/ords[i]) : 'N/A'})`;
+            }
+          }
+        }
+      },
+      scales: {
+        x: { grid: { display: false }, ticks: { font: { weight: '600', size: 11.5 } } },
+        y: {
+          beginAtZero: true,
+          suggestedMax: maxRev * 1.32,
+          title: { display: true, text: 'Net Payment (Juta Rp)' },
+          ticks: { callback: v => (v / 1e6).toFixed(0) + ' Jt' }
+        }
+      }
+    }
+  });
+
+  const aov0 = ords[0] ? Math.round(revs[0] / ords[0]) : 0;
+  const aov1 = ords[1] ? Math.round(revs[1] / ords[1]) : 0;
+  const aov2 = ords[2] ? Math.round(revs[2] / ords[2]) : 0;
+  ins('cMom', `<b>Jan 2026:</b> ${fj(revs[0])} (${ords[0]} order, AOV ${fr(aov0)}) → <b>Feb 2026:</b> ${fj(revs[1])} (${ords[1]} order, <b>${pcts[1]>=0?'+':''}${f1(pcts[1])}% MoM</b> karena AOV naik ke ${fr(aov1)}) → <b>Mar 2026:</b> ${fj(revs[2])} (${ords[2]} order, <b>${pcts[2]>=0?'+':''}${f1(pcts[2])}% MoM</b>, AOV ${fr(aov2)}).`);
+}
+
+// 2. Regional Performance (Net Payment vs Refund per Zona)
+function zone(a){
+  const allZ = u('z').map(z => {
+    const x = a.filter(r => r.z == z), dl = x.filter(r => r.d), lt = dl.filter(r => r.l);
+    return { z, cnt: x.length, n: sum(x, r => r.n), rf: sum(x, r => r.r), rfc: x.filter(r => r.r > 0).length, latePct: pc(lt.length, dl.length) };
+  }).sort((p, q) => (q.n - p.n) || (q.cnt - p.cnt));
+  const Z = allZ.filter(x => x.cnt > 0);
+  const T = sum(Z, x => x.n), RT = sum(Z, x => x.rf);
+  const maxVal = Math.max(...Z.map(x => Math.max(x.n, x.rf)), 1e6);
+
+  const ds = [
+    { label: 'Net Payment', data: Z.map(x => x.n), backgroundColor: '#0ea5e9', maxBarThickness: 28 }
+  ];
+  if (RT > 0) {
+    ds.push({ label: 'Refund', data: Z.map(x => x.rf), backgroundColor: '#f43f5e', maxBarThickness: 20 });
+  }
+
+  mk('cZone', {
+    type: 'bar',
+    data: { labels: Z.map(x => `${x.z} (${x.cnt} ord)`), datasets: ds },
+    options: {
+      indexAxis: 'y',
+      layout: { padding: { right: 105 } },
+      plugins: {
+        legend: { position: 'top', labels: { boxWidth: 11, padding: 14, font: { size: 11 } } },
+        smartLabels: { mode: 'horizZone', totalNet: T },
+        tooltip: { callbacks: { label: c => `${c.dataset.label}: ${fr(c.raw)}` } }
+      },
+      scales: {
+        x: {
+          beginAtZero: true,
+          suggestedMax: maxVal * 1.3,
+          title: { display: true, text: 'Nilai Rupiah (Juta Rp)' },
+          ticks: { callback: v => (v / 1e6).toFixed(1).replace('.0', '') + ' Jt' }
+        }
+      }
+    }
+  });
+
+  if (!Z.length) {
+    ins('cZone', 'Tidak ada data transaksi pada filter ini.');
+  } else {
+    const topZ = Z[0];
+    const lowZ = Z[Z.length - 1];
+    const rz = [...Z].sort((p, q) => q.rf - p.rf)[0];
+    ins('cZone', `<b>Kontribusi Terbesar:</b> Zona <b>${topZ.z}</b> (${fj(topZ.n)} / <b>${fp(pc(topZ.n, T))}</b> dari total). ` +
+      (RT > 0 ? `<b>Refund Tertinggi:</b> Zona <b>${rz.z}</b> (${fj(rz.rf)} dari ${rz.rfc} order). ` : '') +
+      `<b>Evaluasi Wilayah:</b> Zona <b>${lowZ.z}</b> memiliki kontribusi terendah (${fj(lowZ.n)}, ${lowZ.cnt} order)` + (RT > 0 ? ` sedangkan <b>${rz.z}</b> perlu audit pembatalan berbayar.` : '.'));
+  }
+}
+
+// 3. Revenue Breakdown by Cuisine Type
+function cuisine(a){
+  const allC = u('c').map(c => {
+    const x = a.filter(r => r.c == c);
+    return { c, cnt: x.length, n: sum(x, r => r.n), rf: sum(x, r => r.r) };
+  }).filter(x => x.cnt > 0);
+  allC.sort((p, q) => cuisMode === 'net' ? (q.n - p.n) : (q.cnt - p.cnt));
+  const totNet = sum(allC, x => x.n), totOrd = sum(allC, x => x.cnt);
+  const vals = allC.map(x => cuisMode === 'net' ? x.n : x.cnt);
+  const maxV = Math.max(...vals, 1);
+
+  mk('cCuis', {
+    type: 'bar',
+    data: {
+      labels: allC.map(x => x.c),
+      datasets: [
+        {
+          label: cuisMode === 'net' ? 'Net Payment (Rp)' : 'Jumlah Order',
+          data: vals,
+          backgroundColor: '#4f46e5',
+          hoverBackgroundColor: '#4338ca',
+          maxBarThickness: 28
+        }
+      ]
+    },
+    options: {
+      indexAxis: 'y',
+      layout: { padding: { right: 155 } },
+      plugins: {
+        legend: { display: false },
+        smartLabels: { mode: 'horizCuisine', items: allC, totalNet: totNet, totalOrd: totOrd, cuisMode },
+        tooltip: {
+          callbacks: {
+            label: ctx => {
+              const it = allC[ctx.dataIndex];
+              return `${it.c}: ${fr(it.n)} (${fp(pc(it.n, totNet))}) • ${it.cnt} order (${fp(pc(it.cnt, totOrd))})`;
+            }
+          }
+        }
+      },
+      scales: {
+        x: {
+          beginAtZero: true,
+          suggestedMax: maxV * 1.42,
+          title: { display: true, text: cuisMode === 'net' ? 'Net Payment (Juta Rp)' : 'Jumlah Order' },
+          ticks: {
+            callback: v => cuisMode === 'net' ? (v / 1e6).toFixed(1).replace('.0', '') + ' Jt' : v
+          }
+        }
+      }
+    }
+  });
+
+  if (allC.length >= 2) {
+    const c1 = allC[0], c2 = allC[1], top2Share = pc(c1.n + c2.n, totNet);
+    ins('cCuis', `<b>Prioritas Pemasaran:</b> Kategori <b>${c1.c}</b> (${fj(c1.n)}, ${c1.cnt} order) dan <b>${c2.c}</b> (${fj(c2.n)}, ${c2.cnt} order) menyumbang <b>${fp(top2Share)}</b> pendapatan. Prioritaskan kampanye akuisisi &amp; <i>featured merchant</i> pada <b>${c1.c} &amp; ${c2.c}</b>, serta promo <i>cross-selling/bundling</i> untuk kategori <b>${allC[allC.length-1].c}</b>.`);
+  } else if (allC.length === 1) {
+    ins('cCuis', `Menampilkan kategori <b>${allC[0].c}</b>: <b>${fj(allC[0].n)}</b> (${allC[0].cnt} order).`);
+  } else {
+    ins('cCuis', 'Tidak ada data kategori pada filter ini.');
+  }
+}
+
+// 4. Net Payment by Weekdays + Heat Map
+function wkd(a){
+  const revs = [0,1,2,3,4,5,6].map(d => sum(a.filter(r => r.wd === d), r => r.n));
+  const ords = [0,1,2,3,4,5,6].map(d => a.filter(r => r.wd === d).length);
+  const maxV = Math.max(...revs, 5e5);
+
+  mk('cWkd', {
+    type: 'bar',
+    data: {
+      labels: WKD_LBL,
+      datasets: [
+        {
+          label: 'Net Payment (Rp)',
+          data: revs,
+          backgroundColor: '#34d399',
+          hoverBackgroundColor: '#10b981',
+          borderRadius: 6,
+          barPercentage: 0.72,
+          categoryPercentage: 0.82
+        }
+      ]
+    },
+    options: {
+      layout: { padding: { top: 24 } },
+      plugins: {
+        legend: { display: false },
+        smartLabels: { mode: 'weekdayBadge', orders: ords },
+        tooltip: { callbacks: { label: ctx => `Net Payment: ${fr(ctx.raw)} (${ords[ctx.dataIndex]} order)` } }
+      },
+      scales: {
+        x: { grid: { display: false }, ticks: { font: { weight: '600', size: 11 } } },
+        y: { display: false, beginAtZero: true, suggestedMax: maxV * 1.2 }
+      }
+    }
+  });
+
+  const cells = [];
+  let maxCell = 1, bestSlot = 0;
+  const slotTotals = [0,1,2,3].map(s => a.filter(r => r.sl === s).length);
+  for (let s = 0; s < 4; s++) {
+    if (slotTotals[s] > slotTotals[bestSlot]) bestSlot = s;
+    for (let d = 0; d < 7; d++) {
+      const sub = a.filter(r => r.wd === d && r.sl === s);
+      const v = sum(sub, r => r.n);
+      if (v > maxCell) maxCell = v;
+      cells.push({ s, d, v, c: sub.length });
+    }
+  }
+  let hmHtml = `<table class="hm-tbl"><thead><tr><th>Waktu / Hari</th>${WKD_LBL.map(w => `<th>${w.slice(0,3)}</th>`).join('')}</tr></thead><tbody>`;
+  for (let s = 0; s < 4; s++) {
+    hmHtml += `<tr><th style="text-align:left">${SLOT_LBL[s]}</th>`;
+    for (let d = 0; d < 7; d++) {
+      const cl = cells.find(x => x.s === s && x.d === d);
+      const ratio = cl.v / maxCell;
+      const alpha = cl.v > 0 ? (0.15 + ratio * 0.75).toFixed(2) : '0.05';
+      const fg = ratio > 0.55 ? '#ffffff' : 'var(--tx)';
+      hmHtml += `<td style="background:rgba(16,185,129,${alpha});color:${fg}" title="${WKD_LBL[d]} • ${SLOT_LBL[s]}: ${fr(cl.v)} (${cl.c} order)">${cl.v > 0 ? (cl.v/1e6).toFixed(2).replace('.',',')+' Jt' : '-'}<div style="font-size:9.5px;opacity:.85">${cl.c} ord</div></td>`;
+    }
+    hmHtml += `</tr>`;
+  }
+  hmHtml += `</tbody></table>`;
+  $('#hm-cWkd').innerHTML = hmHtml;
+
+  const totW = sum(revs, x => x);
+  if (totW > 0) {
+    let bestRevD = 0, bestOrdD = 0;
+    for (let d = 1; d < 7; d++) {
+      if (revs[d] > revs[bestRevD]) bestRevD = d;
+      if (ords[d] > ords[bestOrdD]) bestOrdD = d;
+    }
+    ins('cWkd', `<b>Pendapatan Tertinggi:</b> hari <b>${WKD_LBL[bestRevD]}</b> (${fj(revs[bestRevD])}). <b>Transaksi Tertinggi:</b> hari <b>${WKD_LBL[bestOrdD]}</b> (${ords[bestOrdD]} order). <b>Jam Sibuk:</b> <b>${SLOT_LBL[bestSlot]}</b> (${slotTotals[bestSlot]} order / ${fp(pc(slotTotals[bestSlot], a.length))}). Klik <b>Heat Map</b> untuk detail kesiapan kurir &amp; jadwal promo.`);
+  } else {
+    ins('cWkd', 'Tidak ada data transaksi pada filter ini.');
+  }
+}
+
+// 5. TAB 2 - Grafik 1: Delivered vs Cancelled per Bulan
+function delivCancel(a){
+  const trendData = S.m ? D.filter(r=>(!S.z||r.z==S.z)&&(!S.s||r.s==S.s)&&(!S.c||r.c==S.c)&&(!S.o||r.o==S.o)) : a;
+  const labels = MON.map(m => `${MN[m]} 2026`);
+  const delivs = MON.map(m => trendData.filter(r => r.m === m && r.d === 1).length);
+  const cancels = MON.map(m => trendData.filter(r => r.m === m && r.d === 0).length);
+  const tots = MON.map((_, i) => delivs[i] + cancels[i]);
+  const maxC = Math.max(...delivs, ...cancels, 10);
+
+  mk('cDeliv', {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [
+        { label: 'Delivered', data: delivs, backgroundColor: '#10b981', maxBarThickness: 44 },
+        { label: 'Cancelled', data: cancels, backgroundColor: '#f43f5e', maxBarThickness: 44 }
+      ]
+    },
+    options: {
+      layout: { padding: { top: 22 } },
+      plugins: {
+        legend: { position: 'top', labels: { boxWidth: 11, padding: 14, font: { size: 11 } } },
+        smartLabels: { mode: 'groupedCountPct', totals: tots },
+        tooltip: {
+          callbacks: {
+            label: ctx => `${ctx.dataset.label}: ${ctx.raw} order (${fp(pc(ctx.raw, tots[ctx.dataIndex]))})`
+          }
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          suggestedMax: Math.ceil(maxC * 1.28),
+          title: { display: true, text: 'Jumlah Order' },
+          ticks: { precision: 0 }
+        }
+      }
+    }
+  });
+
+  const totD = sum(delivs, x => x), totC = sum(cancels, x => x), totAll = totD + totC;
+  const refCnt = trendData.filter(r => r.r > 0).length;
+  ins('cDeliv', totAll ? `Total <b>${totD} order Delivered (${fp(pc(totD, totAll))})</b> vs <b>${totC} order Cancelled (${fp(pc(totC, totAll))})</b>. Dari ${totC} pembatalan, sebanyak <b>${refCnt} order</b> melibatkan pengembalian dana (refund).` : 'Tidak ada data order pada filter ini.');
+}
+
+// 6. TAB 2 - Grafik 2: Late Delivery Rate per Bulan (Jan–Mar 2026)
+function lateMon(a, k){
+  const trendData = S.m ? D.filter(r=>(!S.z||r.z==S.z)&&(!S.s||r.s==S.s)&&(!S.c||r.c==S.c)&&(!S.o||r.o==S.o)) : a;
+  const items = MON.map(m => {
+    const x = trendData.filter(r => r.m === m && r.d === 1);
+    const l = x.filter(r => r.l === 1).length;
+    return { g: `${MN[m]} 2026`, n: x.length, l, p: pc(l, x.length) };
+  });
+  const totDl = sum(items, x => x.n), totLt = sum(items, x => x.l);
+  const avgLate = pc(totLt, totDl);
+  const maxP = Math.max(...items.map(x => x.p || 0), avgLate || 0, 28);
+  const hLines = avgLate != null ? [{ value: avgLate, color: '#4f46e5', dash: [6, 4] }] : [];
+
+  mk('cLateMon', {
+    type: 'bar',
+    data: {
+      labels: items.map(x => x.g),
+      datasets: [
+        {
+          label: 'Late Delivery Rate (%)',
+          data: items.map(x => x.p),
+          maxBarThickness: 54,
+          backgroundColor: items.map(x => x.p == null ? '#94a3b8' : (avgLate != null && x.p > avgLate ? '#f43f5e' : '#0ea5e9'))
+        }
+      ]
+    },
+    options: {
+      layout: { padding: { top: 24 } },
+      plugins: {
+        legend: {
+          display: true,
+          position: 'top',
+          labels: {
+            boxWidth: 11,
+            padding: 12,
+            font: { size: 11 },
+            generateLabels: () => {
+              const lg = [
+                { text: 'Di Atas Rata-rata', fillStyle: '#f43f5e', strokeStyle: '#f43f5e', lineWidth: 0 },
+                { text: 'Di Bawah Rata-rata', fillStyle: '#0ea5e9', strokeStyle: '#0ea5e9', lineWidth: 0 }
+              ];
+              if (avgLate != null) {
+                lg.push({ text: `Rata-rata (${fp1(avgLate)})`, fillStyle: 'transparent', strokeStyle: '#4f46e5', lineWidth: 2, lineDash: [6, 4], pointStyle: 'line' });
+              }
+              return lg;
+            }
+          }
+        },
+        smartLabels: { mode: 'vertLate', items, hLines },
+        tooltip: {
+          callbacks: {
+            label: ctx => {
+              const it = items[ctx.dataIndex];
+              return `Late Rate: ${fp(it.p)} (${it.l} terlambat dari ${it.n} delivered)`;
+            }
+          }
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          suggestedMax: Math.ceil(maxP * 1.25),
+          title: { display: true, text: 'Late Delivery Rate (%)' },
+          ticks: { callback: v => v <= 100 ? v + '%' : '' }
+        }
+      }
+    }
+  });
+
+  const validM = items.filter(x => x.p != null);
+  if (validM.length) {
+    const worstM = [...validM].sort((p, q) => q.p - p.p)[0];
+    const bestM = [...validM].sort((p, q) => p.p - q.p)[0];
+    ins('cLateMon', `Keterlambatan tertinggi terjadi pada <b>${worstM.g}</b> sebesar <b>${fp(worstM.p)}</b> (${worstM.l}/${worstM.n} order), sedangkan terendah pada <b>${bestM.g}</b> sebesar <b>${fp(bestM.p)}</b> (${bestM.l}/${bestM.n} order) dengan rata-rata <b>${fp(avgLate)}</b>.`);
+  } else {
+    ins('cLateMon', 'Tidak ada order delivered pada filter ini.');
+  }
+}
+
+// 7. TAB 2 - Grafik 3: Late Delivery Rate per Zona Pelanggan
+function lateZone(a, k){
+  const allG = u('z').map(z => {
+    const x = a.filter(r => r.z == z && r.d), l = x.filter(r => r.l).length;
+    return { g: z, n: x.length, l, p: pc(l, x.length) };
+  }).filter(x => x.n > 0).sort((p, q) => q.p - p.p);
+  const maxP = Math.max(...allG.map(x => x.p || 0), k.late || 0, 26);
+
+  const hLines = (allG.length > 1 && k.late != null) ? [{ value: k.late, color: '#4f46e5', dash: [6, 4] }] : [];
+
+  const barColors = allG.map(x => {
+    if (x.p == null) return '#94a3b8';
+    if (k.late != null && x.p > k.late) return '#f43f5e';
+    return '#10b981';
+  });
+
+  mk('cLateZone', {
+    type: 'bar',
+    data: {
+      labels: allG.map(x => x.g),
+      datasets: [{ label: 'Late Delivery Rate', data: allG.map(x => x.p), maxBarThickness: 48, backgroundColor: barColors }]
+    },
+    options: {
+      layout: { padding: { top: 24 } },
+      plugins: {
+        legend: {
+          display: true,
+          position: 'top',
+          labels: {
+            boxWidth: 11,
+            padding: 12,
+            font: { size: 11 },
+            generateLabels: () => {
+              const items = [
+                { text: 'Di Atas Rata-rata', fillStyle: '#f43f5e', strokeStyle: '#f43f5e', lineWidth: 0 },
+                { text: 'Di Bawah Rata-rata', fillStyle: '#10b981', strokeStyle: '#10b981', lineWidth: 0 }
+              ];
+              if (allG.length > 1 && k.late != null) {
+                items.push({ text: `Rata-rata (${fp1(k.late)})`, fillStyle: 'transparent', strokeStyle: '#4f46e5', lineWidth: 2, lineDash: [6, 4], pointStyle: 'line' });
+              }
+              return items;
+            }
+          }
+        },
+        smartLabels: { mode: 'vertLate', items: allG, hLines },
+        tooltip: {
+          callbacks: {
+            label: c => {
+              const x = allG[c.dataIndex];
+              return x.p == null ? 'N/A' : `Late Rate: ${fp(x.p)} (${x.l} terlambat dari ${x.n} delivered)`;
+            }
+          }
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          suggestedMax: Math.ceil(maxP * 1.25),
+          title: { display: true, text: 'Late Delivery Rate (%)' },
+          ticks: { callback: v => v <= 100 ? v + '%' : '' }
+        }
+      }
+    }
+  });
+
+  if (allG.length > 1) {
+    const hi = allG[0], lo = allG[allG.length - 1];
+    ins('cLateZone', `Late rate tertinggi di zona <b>${hi.g}</b> sebesar <b>${fp(hi.p)}</b> (${hi.l}/${hi.n}); terendah di zona <b>${lo.g}</b> sebesar <b>${fp(lo.p)}</b> (${lo.l}/${lo.n}). Prioritaskan penambahan kurir di zona <b>${hi.g}</b>.`);
+  } else if (allG.length === 1) {
+    ins('cLateZone', `Menampilkan zona <b>${allG[0].g}</b>: late rate <b>${fp(allG[0].p)}</b> (${allG[0].l}/${allG[0].n}).`);
+  } else {
+    ins('cLateZone', 'Tidak ada order delivered pada filter ini.');
+  }
+}
+
+// 8. TAB 2 - Grafik 4: Analisis Jam Sibuk Operasional (Order & Late Rate per Waktu)
+function peakOps(a, k){
+  const items = [0,1,2,3].map(s => {
+    const sub = a.filter(r => r.sl === s);
+    const dl = sub.filter(r => r.d === 1);
+    const lt = dl.filter(r => r.l === 1);
+    return { s, lbl: SLOT_LBL[s], tot: sub.length, dl: dl.length, lt: lt.length, latePct: pc(lt.length, dl.length) };
+  });
+  const maxOrd = Math.max(...items.map(x => x.tot), 10);
+  const avgLate = k && k.late != null ? k.late : 31.41;
+
+  mk('cPeakOps', {
+    type: 'bar',
+    data: {
+      labels: items.map(x => x.lbl),
+      datasets: [
+        {
+          label: 'Total Order per Waktu',
+          data: items.map(x => x.tot),
+          maxBarThickness: 52,
+          backgroundColor: items.map(x => (x.latePct || 0) > avgLate ? '#f43f5e' : '#0ea5e9')
+        }
+      ]
+    },
+    options: {
+      layout: { padding: { top: 28 } },
+      plugins: {
+        legend: {
+          display: true,
+          position: 'top',
+          labels: {
+            boxWidth: 11,
+            padding: 14,
+            font: { size: 11 },
+            generateLabels: () => [
+              { text: 'Di Atas Rata-rata Keterlambatan', fillStyle: '#f43f5e', strokeStyle: '#f43f5e', lineWidth: 0 },
+              { text: 'Di Bawah Rata-rata Keterlambatan', fillStyle: '#0ea5e9', strokeStyle: '#0ea5e9', lineWidth: 0 }
+            ]
+          }
+        },
+        smartLabels: { mode: 'peakDual', items, avgLate },
+        tooltip: {
+          callbacks: {
+            label: ctx => {
+              const it = items[ctx.dataIndex];
+              return `Volume: ${it.tot} order (${it.dl} delivered) • Late Rate: ${fp(it.latePct)} (${it.lt}/${it.dl})`;
+            }
+          }
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          suggestedMax: Math.ceil(maxOrd * 1.32),
+          title: { display: true, text: 'Jumlah Order' },
+          ticks: { precision: 0 }
+        }
+      }
+    }
+  });
+
+  const tot = sum(items, x => x.tot);
+  if (tot > 0) {
+    const busiest = [...items].sort((p, q) => q.tot - p.tot)[0];
+    const highestLate = [...items].filter(x => x.dl > 0).sort((p, q) => (q.latePct || 0) - (p.latePct || 0))[0];
+    ins('cPeakOps', `<b>Puncak Volume Order:</b> <b>${busiest.lbl}</b> dengan <b>${busiest.tot} order</b> (${fp(pc(busiest.tot, tot))} dari total transaksi, Late Rate <b>${fp(busiest.latePct)}</b>). ` +
+      (highestLate ? `<b>Tingkat Keterlambatan Tertinggi:</b> <b>${highestLate.lbl}</b> sebesar <b>${fp(highestLate.latePct)}</b> (${highestLate.lt}/${highestLate.dl} delivered).` : ''));
+  } else {
+    ins('cPeakOps', 'Tidak ada data pada filter ini.');
+  }
+}
+
+// 9. TAB 3 - Grafik 3 (Urutan 3): Distribusi Rating Bintang (★1 – ★5)
+function rate(a){
+  const rv = a.filter(r => r.se), c = [1, 2, 3, 4, 5].map(v => rv.filter(r => r.rt == v).length);
+  const maxR = Math.max(...c, 4);
+  mk('cRate', {
+    type: 'bar',
+    data: {
+      labels: ['★1', '★2', '★3', '★4', '★5'],
+      datasets: [{ label: 'Jumlah review', data: c, maxBarThickness: 48, backgroundColor: ['#f43f5e', '#f43f5e', '#f59e0b', '#10b981', '#10b981'] }]
+    },
+    options: {
+      layout: { padding: { top: 22 } },
+      plugins: {
+        legend: {
+          display: true,
+          position: 'top',
+          labels: {
+            boxWidth: 11,
+            padding: 14,
+            font: { size: 11 },
+            generateLabels: () => [
+              { text: '★1–★2 (Rendah)', fillStyle: '#f43f5e', strokeStyle: '#f43f5e', lineWidth: 0 },
+              { text: '★3 (Sedang)', fillStyle: '#f59e0b', strokeStyle: '#f59e0b', lineWidth: 0 },
+              { text: '★4–★5 (Tinggi)', fillStyle: '#10b981', strokeStyle: '#10b981', lineWidth: 0 }
+            ]
+          }
+        },
+        smartLabels: { mode: 'vertCountPct', total: rv.length },
+        tooltip: {
+          callbacks: {
+            label: ctx => `${ctx.raw} review (${fp(pc(ctx.raw, rv.length))})`
+          }
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          suggestedMax: Math.ceil(maxR * 1.28),
+          title: { display: true, text: 'Jumlah Review' },
+          ticks: { precision: 0 }
+        }
+      }
+    }
+  });
+  const a1 = rv.filter(r => r.rt >= 4 && r.se == 'Negative').length, a2 = rv.filter(r => r.rt <= 2 && r.se == 'Positive').length;
+  ins('cRate', rv.length ? `Rata-rata rating <b>${(sum(rv, r => r.rt) / rv.length).toFixed(2).replace('.', ',')} ★</b> dari ${rv.length} review. Anomali rating vs teks: <b>${a1} review</b> bintang 4–5 berisi keluhan dan <b>${a2} review</b> bintang 1–2 berisi pujian; sentimen ditentukan dari isi teks.` : 'Tidak ada rating (N/A).');
+}
+
+// 10. TAB 3 - Grafik 1: Perbandingan Sentimen (On-time vs Late)
+function ls(a){
+  const rawG = [['On-time', a.filter(r => r.se && r.d && !r.l)], ['Late', a.filter(r => r.se && r.d && r.l)]];
+  const G = rawG.filter(g => g[1].length > 0);
+  const sh = (g, s) => g.length ? pc(g.filter(r => r.se == s).length, g.length) : 0;
+
+  mk('cLS', {
+    type: 'bar',
+    data: {
+      labels: (G.length ? G : rawG).map(g => g[0]),
+      datasets: SENT.map(s => ({
+        label: s,
+        backgroundColor: SC[s],
+        maxBarThickness: 48,
+        borderRadius: 0,
+        data: (G.length ? G : rawG).map(g => sh(g[1], s))
+      }))
+    },
+    options: {
+      indexAxis: 'y',
+      plugins: {
+        legend: { position: 'top', labels: { boxWidth: 11, padding: 12, font: { size: 11 } } },
+        smartLabels: { mode: 'stacked100' },
+        tooltip: {
+          callbacks: {
+            label: ctx => {
+              const grp = (G.length ? G : rawG)[ctx.dataIndex][1];
+              const cnt = grp.filter(r => r.se == SENT[ctx.datasetIndex]).length;
+              return `${ctx.dataset.label}: ${fp(ctx.raw)} (${cnt}/${grp.length} review)`;
+            }
+          }
+        }
+      },
+      scales: {
+        x: { stacked: true, min: 0, max: 100, ticks: { callback: v => v + '%' }, title: { display: true, text: 'Proporsi Sentimen (%)' } },
+        y: { stacked: true }
+      }
+    }
+  });
+
+  const q = rawG.map(g => g[1].length ? sh(g[1], 'Negative') : null);
+  ins('cLS', q[0] != null && q[1] != null
+    ? `Proporsi <b>Negative</b> pada order <b>Late mencapai ${fp(q[1])}</b> (${rawG[1][1].filter(r => r.se == 'Negative').length}/${rawG[1][1].length}) dibanding <b>On-time hanya ${fp(q[0])}</b> (${rawG[0][1].filter(r => r.se == 'Negative').length}/${rawG[0][1].length})` +
+      (q[0] > 0 ? ` — melonjak <b>${(q[1] / q[0]).toFixed(2).replace('.', ',')}x lipat</b> akibat keterlambatan.` : '.')
+    : 'Menampilkan kelompok yang tersedia pada filter aktif.');
+}
+
+// 11. TAB 3 - Grafik 2: Customer Sentiment Distribution
+function sent(a, k){
+  const rv = a.filter(r => r.se), c = SENT.map(s => rv.filter(r => r.se == s).length);
+  mk('cSent', {
+    type: 'doughnut',
+    data: {
+      labels: SENT.map((s, i) => `${s} (${c[i]})`),
+      datasets: [{ data: c, backgroundColor: SENT.map(s => SC[s]), borderWidth: 2, borderColor: '#ffffff', hoverOffset: 8 }]
+    },
+    options: {
+      cutout: '58%',
+      plugins: {
+        legend: { position: 'right', labels: { boxWidth: 11, padding: 12, font: { size: 11.5 } } },
+        smartLabels: { mode: 'doughnutPct', total: k.rv },
+        tooltip: {
+          callbacks: {
+            label: ctx => `${SENT[ctx.dataIndex]}: ${ctx.raw} review (${fp(pc(ctx.raw, k.rv))})`
+          }
+        }
+      }
+    }
+  });
+  ins('cSent', k.rv ? `Dari <b>${k.rv} review</b>: <b>Positive ${fp(pc(c[0], k.rv))}</b> (${c[0]}), <b>Neutral ${fp(pc(c[1], k.rv))}</b> (${c[1]}), <b>Negative ${fp(pc(c[2], k.rv))}</b> (${c[2]}), <b>Unknown ${fp(pc(c[3], k.rv))}</b> (${c[3]}), dan <b>No Text ${fp(pc(c[4], k.rv))}</b> (${c[4]}); terpisah dari <b>${k.n - k.rv} order No Review</b>.` : `Tidak ada review (${k.n} order tanpa ulasan).`);
+}
+
+// 12. TAB 3 - Grafik 4: Sentimen Berdasarkan Kategori Restoran / Zona
+function sentByDim(a){
+  const keys = u(sDim);
+  const groups = keys.map(kVal => {
+    const sub = a.filter(r => r[sDim] === kVal && r.se != null);
+    return { kVal, sub, n: sub.length, negPct: pc(sub.filter(r => r.se === 'Negative').length, sub.length) || 0 };
+  }).filter(g => g.n > 0).sort((p, q) => q.negPct - p.negPct);
+
+  const sh = (grp, s) => grp.length ? pc(grp.filter(r => r.se === s).length, grp.length) : 0;
+
+  mk('cSentDim', {
+    type: 'bar',
+    data: {
+      labels: groups.map(g => g.kVal),
+      datasets: SENT.map(s => ({
+        label: s,
+        backgroundColor: SC[s],
+        maxBarThickness: 32,
+        data: groups.map(g => sh(g.sub, s))
+      }))
+    },
+    options: {
+      indexAxis: 'y',
+      plugins: {
+        legend: { position: 'top', labels: { boxWidth: 11, padding: 12, font: { size: 11 } } },
+        smartLabels: { mode: 'stacked100' },
+        tooltip: {
+          callbacks: {
+            label: ctx => {
+              const g = groups[ctx.dataIndex];
+              const cnt = g.sub.filter(r => r.se === SENT[ctx.datasetIndex]).length;
+              return `${ctx.dataset.label}: ${fp(ctx.raw)} (${cnt}/${g.n} review)`;
+            }
+          }
+        }
+      },
+      scales: {
+        x: { stacked: true, min: 0, max: 100, ticks: { callback: v => v + '%' }, title: { display: true, text: 'Proporsi Sentimen (%)' } },
+        y: { stacked: true }
+      }
+    }
+  });
+
+  if (groups.length) {
+    const worstG = groups[0];
+    const bestPos = [...groups].sort((p, q) => sh(q.sub, 'Positive') - sh(p.sub, 'Positive'))[0];
+    ins('cSentDim', `Sentimen <b>Negative tertinggi</b> berada pada ${sDim === 'c' ? 'kategori' : 'zona'} <b>${worstG.kVal}</b> sebesar <b>${fp(worstG.negPct)}</b>, sedangkan proporsi <b>Positive tertinggi</b> pada <b>${bestPos.kVal}</b> sebesar <b>${fp(sh(bestPos.sub, 'Positive'))}</b>.`);
+  } else {
+    ins('cSentDim', 'Tidak ada data ulasan pada filter ini.');
+  }
+}
+
+function exec(a,k,B){
+  const tName = (TB.find(x => x[0] === tab) || TB[0])[1];
+  $('#h-exec').innerHTML = `📌 Key Highlights — ${tName}`;
+  $('#h-rec').innerHTML = `🎯 Action Plan — ${tName}`;
+  if(!k.n){$('#exec').innerHTML='<li>Tidak ada data untuk kombinasi filter ini.</li>';$('#rec').innerHTML='<li>Silakan ubah atau reset filter untuk melihat rekomendasi.</li>';return}
+
+  const L=[], R=[];
+  if (tab === 'ring') {
+    // Tab 1: Performa Bisnis & Penjualan
+    const aov = Math.round(k.net / k.n);
+    L.push(`<li><b>Skala &amp; Nilai Transaksi:</b> Mencatatkan <b>${k.n} order</b> dengan pembayaran bersih (<i>Net Payment</i>) <b>${fj(k.net)}</b> (AOV <b>${fr(aov)}</b>) serta pengembalian dana (<i>refund</i>) <b>${fj(k.rf)}</b> (${fp(pc(k.rf, k.g))} dari pembayaran kotor).</li>`);
+
+    const trendData = S.m ? D.filter(r=>(!S.z||r.z==S.z)&&(!S.s||r.s==S.s)&&(!S.c||r.c==S.c)&&(!S.o||r.o==S.o)) : a;
+    const revs = MON.map(m => sum(trendData.filter(r => r.m === m), r => r.n));
+    if (revs[0] > 0 && revs[1] > 0 && revs[2] > 0) {
+      const p1 = (revs[1] - revs[0]) / revs[0] * 100;
+      const p2 = (revs[2] - revs[1]) / revs[1] * 100;
+      L.push(`<li><b>Tren Penjualan Bulanan:</b> Net Payment tumbuh <b>${p1>=0?'+':''}${f1(p1)}% MoM</b> pada Februari (${fj(revs[1])}), lalu terkoreksi <b>${p2>=0?'+':''}${f1(p2)}% MoM</b> pada Maret (${fj(revs[2])}) akibat penurunan rata-rata nilai belanja per transaksi (AOV).</li>`);
+    }
+
+    const zList = u('z').map(z => ({ z, n: sum(a.filter(r => r.z === z), r => r.n), rf: sum(a.filter(r => r.z === z), r => r.r) })).filter(x => x.n > 0).sort((p, q) => q.n - p.n);
+    const cList = u('c').map(c => ({ c, n: sum(a.filter(r => r.c === c), r => r.n) })).filter(x => x.n > 0).sort((p, q) => q.n - p.n);
+    if (zList.length && cList.length) {
+      L.push(`<li><b>Kontributor Wilayah &amp; Kategori Utama:</b> Zona <b>${zList[0].z}</b> (${fj(zList[0].n)} / ${fp(pc(zList[0].n, k.net))}) dan kategori restoran <b>${cList[0].c}</b> (${fj(cList[0].n)} / ${fp(pc(cList[0].n, k.net))}) menjadi penyumbang pendapatan terbesar.</li>`);
+    }
+
+    const wRevs = [0,1,2,3,4,5,6].map(d => ({ d, v: sum(a.filter(r => r.wd === d), r => r.n), c: a.filter(r => r.wd === d).length })).sort((p, q) => q.v - p.v);
+    if (wRevs[0].v > 0) {
+      L.push(`<li><b>Pola Hari Transaksi:</b> Pendapatan tertinggi tercatat pada hari <b>${WKD_LBL[wRevs[0].d]}</b> sebesar <b>${fj(wRevs[0].v)}</b> (${wRevs[0].c} order).</li>`);
+    }
+
+    const topRfZ = [...zList].sort((p, q) => q.rf - p.rf)[0];
+    if (cList.length) {
+      R.push(`<b>Pemulihan Nilai Belanja (AOV):</b> Luncurkan paket <i>bundling</i> dan promo <i>minimum order</i> pada kategori <b>${cList[0].c}</b>${cList[1] ? ` &amp; <b>${cList[1].c}</b>` : ''} untuk mengangkat kembali rata-rata nilai transaksi bulanan.`);
+    }
+    if (k.rf > 0 && topRfZ) {
+      R.push(`<b>Pengendalian Refund Wilayah:</b> Evaluasi penyebab pembatalan pesanan berbayar (${a.filter(r => r.r > 0).length} order senilai ${fj(k.rf)}), khususnya di Zona <b>${topRfZ.z}</b> (${fj(topRfZ.rf)}).`);
+    }
+    if (zList.length > 1) {
+      const lowZ = zList[zList.length - 1];
+      R.push(`<b>Ekspansi Permintaan Wilayah &amp; Hari:</b> Optimalkan kampanye promosi lokal di Zona <b>${lowZ.z}</b> serta penawaran khusus di luar hari puncak untuk meratakan volume transaksi mingguan.`);
+    }
+  } else if (tab === 'ops') {
+    // Tab 2: Operasional & Pengiriman
+    const canc = k.n - k.dl;
+    const refCnt = a.filter(r => r.r > 0).length;
+    L.push(`<li><b>Penyelesaian vs Pembatalan Order:</b> Sebanyak <b>${k.dl} order (${fp(pc(k.dl, k.n))})</b> berstatus <i>Delivered</i> dan <b>${canc} order (${fp(pc(canc, k.n))})</b> berstatus <i>Cancelled</i> (${refCnt} order di antaranya melibatkan pengembalian dana).</li>`);
+
+    if (k.late != null) {
+      const dlRows = a.filter(r => r.d && r.l && r.dl != null);
+      const avgDl = dlRows.length ? (sum(dlRows, r => r.dl) / dlRows.length).toFixed(1).replace('.', ',') : '0';
+      L.push(`<li class="${k.late > B.late ? 'bad' : 'warn'}"><b>Tingkat Keterlambatan (Late Delivery Rate):</b> Tercatat sebesar <b>${fp(k.late)}</b> (${k.lt} dari ${k.dl} order delivered terlambat) dengan rata-rata waktu keterlambatan <b>+${avgDl} menit</b>.</li>`);
+    }
+
+    const zlAll = u('z').map(z => { const x = a.filter(r => r.z === z && r.d); return { z, n: x.length, l: x.filter(r => r.l).length, p: pc(x.filter(r => r.l).length, x.length) }; }).filter(x => x.n > 0).sort((p, q) => q.p - p.p);
+    if (zlAll.length) {
+      const topVolZ = [...zlAll].sort((p, q) => q.l - p.l)[0];
+      L.push(`<li><b>Sebaran Keterlambatan per Zona:</b> Persentase keterlambatan tertinggi berada di Zona <b>${zlAll[0].z} (${fp(zlAll[0].p)})</b>, sedangkan jumlah keterlambatan terbanyak terjadi di Zona <b>${topVolZ.z} (${topVolZ.l}/${topVolZ.n} order)</b>.</li>`);
+    }
+
+    const slots = [0,1,2,3].map(s => { const sub = a.filter(r => r.sl === s); const dl = sub.filter(r => r.d); const lt = dl.filter(r => r.l); return { lbl: SLOT_LBL[s], tot: sub.length, dl: dl.length, lt: lt.length, p: pc(lt.length, dl.length) || 0 }; });
+    const busyS = [...slots].sort((p, q) => q.tot - p.tot)[0];
+    const lateS = [...slots].filter(x => x.dl > 0).sort((p, q) => q.p - p.p)[0];
+    if (busyS && busyS.tot > 0) {
+      L.push(`<li><b>Jam Sibuk Operasional:</b> Volume transaksi tertinggi terjadi pada <b>${busyS.lbl}</b> (${busyS.tot} order), sedangkan rasio keterlambatan tertinggi terjadi pada <b>${lateS ? lateS.lbl : busyS.lbl} (${fp(lateS ? lateS.p : busyS.p)})</b>.</li>`);
+    }
+
+    if (k.lt > 0) {
+      R.push(`<b>Penambahan Kapasitas Kurir Jam Sibuk:</b> Realokasi <i>buffer</i> kurir aktif pada waktu <b>${lateS ? lateS.lbl : 'Siang'}</b> dan <b>${busyS ? busyS.lbl : 'Malam'}</b>, terutama untuk melayani Zona <b>${zlAll.length ? zlAll[0].z : 'Utama'}</b>${zlAll.length > 1 ? ` &amp; <b>${zlAll[1].z}</b>` : ''}.`);
+      R.push(`<b>Kalibrasi Estimasi Waktu Lintas Zona:</b> Sesuaikan perhitungan <i>promised delivery time</i> pada pengiriman lintas zona (<i>cross-zone delivery</i>) agar estimasi tiba lebih realistis.`);
+    }
+    if (canc > 0) {
+      R.push(`<b>Mitigasi Pembatalan Pesanan:</b> Percepat proses konfirmasi restoran dan penugasan kurir otomatis untuk menekan rasio <i>Cancelled</i> dari ${fp(pc(canc, k.n))} menjadi di bawah 10%.`);
+    }
+  } else {
+    // Tab 3: Pelanggan & Sentimen
+    L.push(`<li class="${k.cov < 70 ? 'warn' : 'ok'}"><b>Partisipasi Ulasan (Review Coverage):</b> Sebanyak <b>${fp(k.cov)}</b> pesanan (${k.rv} dari ${k.n} order) memiliki ulasan pelanggan, sementara <b>${k.n - k.rv} order</b> berstatus <i>No Review</i>.</li>`);
+
+    if (k.rv > 0) {
+      const rv = a.filter(r => r.se);
+      const cPos = rv.filter(r => r.se === 'Positive').length;
+      const cNeu = rv.filter(r => r.se === 'Neutral').length;
+      const cNeg = rv.filter(r => r.se === 'Negative').length;
+      const cUnk = rv.filter(r => r.se === 'Unknown').length;
+      const cNoT = rv.filter(r => r.se === 'No Text').length;
+      L.push(`<li><b>Distribusi Sentimen Pelanggan:</b> Didominasi <b>Positive ${fp(pc(cPos, k.rv))}</b> (${cPos}), diikuti <b>Neutral ${fp(pc(cNeu, k.rv))}</b> (${cNeu}), <b>Negative ${fp(pc(cNeg, k.rv))}</b> (${cNeg}), <b>Unknown ${fp(pc(cUnk, k.rv))}</b> (${cUnk}), dan <b>No Text ${fp(pc(cNoT, k.rv))}</b> (${cNoT}).</li>`);
+
+      const onT = rv.filter(r => r.d && !r.l), ltT = rv.filter(r => r.d && r.l);
+      const pOn = pc(onT.filter(r => r.se === 'Negative').length, onT.length);
+      const pLt = pc(ltT.filter(r => r.se === 'Negative').length, ltT.length);
+      if (pOn != null && pLt != null) {
+        const mult = pOn > 0 ? (pLt / pOn).toFixed(2).replace('.', ',') + 'x lipat' : 'signifikan';
+        L.push(`<li class="bad"><b>Dampak Keterlambatan pada Keluhan:</b> Proporsi sentimen <b>Negative</b> pada pengiriman <i>Late</i> mencapai <b>${fp(pLt)}</b> (${ltT.filter(r => r.se === 'Negative').length}/${ltT.length}), melonjak <b>${mult}</b> dibanding pengiriman <i>On-time</i> yang hanya <b>${fp(pOn)}</b> (${onT.filter(r => r.se === 'Negative').length}/${onT.length}).</li>`);
+      }
+
+      const avgRt = (sum(rv, r => r.rt) / rv.length).toFixed(2).replace('.', ',');
+      const a1 = rv.filter(r => r.rt >= 4 && r.se === 'Negative').length, a2 = rv.filter(r => r.rt <= 2 && r.se === 'Positive').length;
+      L.push(`<li><b>Rata-rata Rating &amp; Validasi Teks:</b> Skor bintang rata-rata <b>${avgRt} ★</b>, dengan temuan <b>${a1 + a2} anomali rating vs teks</b> (${a1} bintang 4–5 mengeluh &amp; ${a2} bintang 1–2 memuji).</li>`);
+
+      R.push(`<b>Penanganan Keluhan Pengiriman &amp; Suhu Makanan:</b> Wajibkan penggunaan <i>thermal bag</i> kurir serta kirimkan notifikasi/kompensasi proaktif saat pesanan terlambat untuk meredam lonjakan ulasan <i>Negative</i>.`);
+      R.push(`<b>Akuisisi Ulasan Teks (Target Coverage ≥70%):</b> Aktifkan pengingat otomatis (<i>push notification</i>) 30 menit pasca-pengantaran disertai insentif poin bagi pelanggan yang menuliskan ulasan teks.`);
+      R.push(`<b>Evaluasi Mitra Kuliner &amp; Validasi UI Rating:</b> Tindak lanjuti keluhan rasa/kemasan pada kategori kuliner dengan sentimen negatif tertinggi serta tambahkan konfirmasi teks saat pelanggan memberi bintang ekstrem.`);
+    }
+  }
+
+  if(!R.length) R.push('Pertahankan standar kinerja layanan dan lakukan pemantauan berkala.');
+  $('#exec').innerHTML=L.join('');
+  $('#rec').innerHTML=R.map(x=>`<li>${x}</li>`).join('');
+}
+
+function render(){
+  const a=fil(),k=K(a),B=K(D),cs=getComputedStyle(document.documentElement);
+  Chart.defaults.color=cs.getPropertyValue('--mu').trim();
+  Chart.defaults.borderColor=cs.getPropertyValue('--bd').trim();
+  Chart.defaults.elements.bar.borderRadius=6;
+  Chart.defaults.font.family='system-ui,-apple-system,Segoe UI,Arial,sans-serif';
+  Chart.defaults.plugins.legend.labels.usePointStyle=true;
+  $('#cnt').textContent=`Menampilkan ${k.n} dari ${D.length} order`;
+  kpis(k,B);
+  momSales(a);
+  zone(a);
+  cuisine(a);
+  wkd(a);
+  delivCancel(a);
+  lateMon(a,k);
+  lateZone(a,k);
+  peakOps(a,k);
+  ls(a);
+  sent(a,k);
+  rate(a);
+  sentByDim(a);
+  exec(a,k,B);
+}
+go('ring');render();
+</script></body></html>
